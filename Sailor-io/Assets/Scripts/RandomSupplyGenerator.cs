@@ -15,9 +15,11 @@ public class RandomSupplyGenerator : MonoBehaviour {
 
     [Header("Good to know")]
     [DisplayWithoutEdit]
-    public float MAP_CENTER;
+    public Vector3 MAP_CENTER;
     [DisplayWithoutEdit]
     public float MAP_LENGTH;
+    [DisplayWithoutEdit]
+    public float MAP_WIDTH;
     [DisplayWithoutEdit]
     public float MAP_HEIGHT;
 
@@ -55,10 +57,11 @@ public class RandomSupplyGenerator : MonoBehaviour {
         }
     }
 
-    private Vector2 GetRandomPosition() {
-        float posX = Random.Range(-MAP_LENGTH, MAP_LENGTH);
-        float posY = Random.Range(-MAP_HEIGHT, MAP_HEIGHT);
-        return new Vector2(posX, posY);
+    private Vector3 GetRandomPosition() {
+        float posX = Random.Range(-1 * GetMapLength(), GetMapLength());
+        float posY = GetMapHeight() * 0.5f;
+        float posZ = Random.Range(-1 * GetMapWidth(), GetMapWidth());
+        return new Vector3(posX, posY, posZ);
     }
 
     private void InstantiateNewSupply() {
@@ -73,16 +76,17 @@ public class RandomSupplyGenerator : MonoBehaviour {
     }
 
     private bool IsTotallyGenerated {
-        get { return generatedSuppliesCount >= generateCount ? true : false; }
+        get { return generatedSuppliesCount >= generateCount ? false : true; }
         set { isTotallyGenerated = value; }
     }
 
-    private Vector2 GetMapCenter() {
+    private Vector3 GetMapCenter() {
         if (mapObject == null) {
             Debug.LogError("Assign a map!");
-            return Vector2.zero;
+            return Vector3.zero;
         }
-        return mapObject.position;
+        MAP_CENTER = new Vector3(mapObject.position.x, mapObject.position.y, mapObject.position.z);
+        return MAP_CENTER;
     }
 
 	private float GetMapHeight() {
@@ -90,7 +94,9 @@ public class RandomSupplyGenerator : MonoBehaviour {
             Debug.LogError("Assingn a map!");
             return 100f;
         }
-        return GetMapCenter().y + mapObject.localScale.y;
+        float centerOffset = GetMapCenter().y;
+        MAP_HEIGHT = centerOffset + (mapObject.GetComponent<MeshRenderer>().bounds.size.y * 0.5f);
+        return MAP_HEIGHT;
     }
 
     private float GetMapLength() {
@@ -98,6 +104,18 @@ public class RandomSupplyGenerator : MonoBehaviour {
             Debug.LogError("Assign a map!");
             return 100f;
         }
-        return GetMapCenter().x + mapObject.localScale.x;
+        float centerOffset = GetMapCenter().x;
+        MAP_LENGTH = centerOffset + (mapObject.GetComponent<MeshRenderer>().bounds.size.x * 0.5f);
+        return MAP_LENGTH;
+    }
+
+    private float GetMapWidth() {
+        if (mapObject == null) {
+            Debug.LogError("Assign a map!");
+            return 100f;
+        }
+        float centerOffset = GetMapCenter().z;
+        MAP_WIDTH = centerOffset + (mapObject.GetComponent<MeshRenderer>().bounds.size.z * 0.5f);
+        return MAP_WIDTH;
     }
 }
