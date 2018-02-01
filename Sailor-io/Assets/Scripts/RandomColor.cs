@@ -31,9 +31,11 @@ public class RandomColor : MonoBehaviour {
 
     private Renderer _renderer;
 
-    private void Start()
-    {
+    private void Start() {
         _renderer = GetComponent<Renderer>();
+
+        if (_renderer == null)
+            return;
 
         var tempMaterial = new Material(_renderer.sharedMaterial);
         tempMaterial.color = Colors[Random.Range(0, Colors.Length)];
