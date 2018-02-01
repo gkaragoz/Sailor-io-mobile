@@ -34,7 +34,7 @@ public class RandomColor : MonoBehaviour {
     private void Start() {
         _renderer = GetComponent<Renderer>();
 
-        if (_renderer == null)
+        if (_renderer == null || Colors == null)
             return;
 
         var tempMaterial = new Material(_renderer.sharedMaterial);
