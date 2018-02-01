@@ -50,6 +50,7 @@ public class DisplayWithoutEditDrawer : PropertyDrawer
                 EditorGUI.LabelField(position, label, new GUIContent(property.stringValue));
                 break;
             case SerializedPropertyType.Vector2:
+                EditorGUI.LabelField(position, label, new GUIContent("(" + property.vector2Value.x.ToString() + " , " + property.vector2Value.y.ToString() + ")"));
                 break;
             case SerializedPropertyType.Vector3:
                 break;
