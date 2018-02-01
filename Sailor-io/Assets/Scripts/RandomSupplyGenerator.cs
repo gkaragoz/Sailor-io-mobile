@@ -22,6 +22,7 @@ public class RandomSupplyGenerator : MonoBehaviour {
     public float MAP_HEIGHT;
 
     [Header("Infos")]
+    [DisplayWithoutEdit]
     public int generatedSuppliesCount;
 
     [DisplayWithoutEdit]
