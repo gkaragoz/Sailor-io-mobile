@@ -11,6 +11,7 @@ public class PlayerEntity : MonoBehaviour {
     public string _username;                //Player's username which he/she logged in with this.
     public bool _isMe;                      //Is this client a current user checks.
     public int _gold;                       //Player's gold count that he/she can spend for something on market.
+    public float _movementSpeed;            //Player's movement speed.
     public float _attackDamage;             //Player's attack damage.
     public float _attackRate;               //Player's attack rate. (seconds)
     public Raft _raft;                      //Player's that has current ship/raft.
@@ -35,6 +36,11 @@ public class PlayerEntity : MonoBehaviour {
     public int Gold {
         get { return _gold; }
         set { _gold = value; }
+    }
+
+    public float MovementSpeed {
+        get { return _movementSpeed; }
+        set { _movementSpeed = value; }
     }
 
     public float AttackDamage {
