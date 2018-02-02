@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine;
 
 [CustomPropertyDrawer(typeof(DisplayWithoutEdit))]
 public class DisplayWithoutEditDrawer : PropertyDrawer
