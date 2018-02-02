@@ -14,20 +14,13 @@ public class RandomSupplyGenerator : MonoBehaviour {
     public float generateCount;
 
     [Header("Good to know")]
-    [DisplayWithoutEdit]
     public Vector3 MAP_CENTER;
-    [DisplayWithoutEdit]
     public float MAP_LENGTH;
-    [DisplayWithoutEdit]
     public float MAP_WIDTH;
-    [DisplayWithoutEdit]
     public float MAP_HEIGHT;
 
     [Header("Infos")]
-    [DisplayWithoutEdit]
     public int generatedSuppliesCount;
-
-    [DisplayWithoutEdit]
     public bool isTotallyGenerated;
 
     private Transform parentObject;

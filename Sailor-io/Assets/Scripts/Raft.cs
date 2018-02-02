@@ -7,27 +7,16 @@ public class Raft : MonoBehaviour {
 
     // Those variables should be private!
     // But for now to show in inspector, they're public.
-    [DisplayWithoutEdit]
     public string _id;                          //Ship's id.
-    [DisplayWithoutEdit]
     public string _name;                        //Ship's name.
-    [DisplayWithoutEdit]
     public float _health;                       //Ship's maximum health;
-    [DisplayWithoutEdit]
     public float _currentHealth;                //Ship's current health;
-    [DisplayWithoutEdit]
     public float _movementSpeed;                //Ship's movement speed;
-    [DisplayWithoutEdit]
     public float _rotationSpeed;                //Ship's rotation speed;
-    [DisplayWithoutEdit]
     public int _maxSuppliesCount;               //Maximum number of supplies that ship can carry.
-    [DisplayWithoutEdit]
     public int _currentSuppliesCount;           //Current number of supplies that ship already carry.
-    [DisplayWithoutEdit]
     public int _maxSailorsCount;                //Maximum number of players that ship can carry.
-    [DisplayWithoutEdit]
     public int _currentSailorsCount;            //Current number of players that ship already carry.
-    [DisplayWithoutEdit]
     public int _marketPrice;                    //Ship's price on market that players can buy.
 
     public PlayerEntity _captain;               //The captain of the ship.
