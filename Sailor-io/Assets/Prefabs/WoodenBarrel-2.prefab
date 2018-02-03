@@ -54,8 +54,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4782055963444950}
   - component: {fileID: 114563342598314718}
+  - component: {fileID: 114426246722874002}
   m_Layer: 0
-  m_Name: Wooden Barrel-2
+  m_Name: WoodenBarrel-2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -184,6 +185,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1332104192466478}
   m_Mesh: {fileID: 4300002, guid: bd97d46f826aaaa46a960133393f599e, type: 3}
+--- !u!114 &114426246722874002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1903430876855646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b68743ff3508104aaa3397da668a6eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: 
+  _income: 10
 --- !u!114 &114563342598314718
 MonoBehaviour:
   m_ObjectHideFlags: 1

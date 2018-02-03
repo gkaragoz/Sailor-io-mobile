@@ -8,9 +8,9 @@ namespace Assets.Scripts.Network.ApiModels
 	[Serializable]
 	public class SupplyCrate
 	{
-		public double pos_x;
-		public double pos_z;
-		public double pos_y;
+		public float pos_x;
+		public float pos_z;
+		public float pos_y;
 		public string supplyId;
 		public int supplyIncome;
 		public string assetName;

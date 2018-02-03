@@ -17,7 +17,6 @@ namespace Assets.Scripts.Network.Controllers
 		public static void RegisterEvents()
 		{
 			SocketManager.instance.io.On(BaseEvent.connect.ToString(), OnConnectionSuccess);
-			SocketManager.instance.io.On(WorldEvent.worldUpdate.ToString(), OnWorldUpdate);
 			SocketManager.instance.io.On(WorldEvent.getWorldInfo.ToString(), OnWorldInfoDownloaded);
 		}
 
@@ -52,24 +51,17 @@ namespace Assets.Scripts.Network.Controllers
 			//GameManager.tickRate = updateModel.svTickRate;
 			//DebugManager.instance.serverTickRate.text = "Tick Rate: " + updateModel.svTickRate.ToString();
 
+            //HandleSupplies
 			#region SupplyCrateStatus
 			foreach (var supply in updateModel.supplyCrates)
 			{
-				//supply'yin id'si unique
-				// supply senin listende yoksa spawn edip ekle
-				// eger sende varsa fakat gelen listede yoksa, yok etme animasyonu falan baslatabilirsin.
-				
-				//supply.supplyId;
-				//supply.pos_x;
-				//supply.pos_y;
-				//supply.pos_z;
-				//supply.supplyIncome;
-				//supply.supplyName;
+                Vector3 position = new Vector3(supply.pos_x, supply.pos_y, supply.pos_z);
+                WorldManager.instance.InstantiateSupply(supply.supplyId, supply.assetName, position);
 			}
 			#endregion
 		}
-
-		/// <summary>
+		
+        /// <summary>
 		/// World Update function 
 		/// </summary>
 		/// <param name="e"></param>
@@ -78,6 +70,9 @@ namespace Assets.Scripts.Network.Controllers
 			Debug.Log("[WORLD INFO DOWNLOADED]");
 			var worldInfoModel = WorldInfoModel.CreateFromJSON(e.data.ToString());
 
-		}
+            WorldManager.instance.BuildWorld(worldInfoModel);
+
+            SocketManager.instance.io.On(WorldEvent.worldUpdate.ToString(), OnWorldUpdate);
+        }
 	}
 }

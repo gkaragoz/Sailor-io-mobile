@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Assets.Scripts.Network.ApiModels;
 
 public class WorldManager : MonoBehaviour {
 
@@ -15,6 +17,8 @@ public class WorldManager : MonoBehaviour {
     public float MAP_WIDTH;
     public float MAP_HEIGHT;
 
+    public List<SupplyEntity> supplyEntities = new List<SupplyEntity>();
+
     private SupplyGenerator supplyGenerator; 
 
     private void Awake() {
@@ -24,8 +28,25 @@ public class WorldManager : MonoBehaviour {
         supplyGenerator = GetComponent<SupplyGenerator>();
     }
 
-    public void BuildWorld() {
+    public void BuildWorld(WorldInfoModel worldInfoModel) {
+        Vector3 centerPos = new Vector3(worldInfoModel.offSetX, 0f, worldInfoModel.offSetZ);
+        mapObject = Instantiate(mapObject, centerPos, Quaternion.identity);
+        mapObject.transform.localScale = new Vector3(worldInfoModel.length * 0.1f, 1f, worldInfoModel.width * 0.1f);
+        mapObject.name = "Sea";
+    }
 
+    public void InstantiateSupply(string supplyId, string assetName, Vector3 position) {
+        if (supplyEntities.Count <= 0) {
+            supplyEntities.Add(supplyGenerator.InstantiateNewSupply(supplyId, assetName, position));
+            return;
+        }
+
+        //Nobody collected that supply yet.
+        if(supplyEntities.Where(supply => supply.ID == supplyId).Any()) {
+            return;
+        }
+
+        supplyEntities.Add(supplyGenerator.InstantiateNewSupply(supplyId, assetName, position));
     }
 
     public Vector3 GetMapCenter() {
