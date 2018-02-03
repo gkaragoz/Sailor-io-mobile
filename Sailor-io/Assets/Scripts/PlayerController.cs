@@ -12,13 +12,7 @@ public class PlayerController : PlayerEntity {
         Vector3 dir = new Vector3(horizontal, 0f, vertical);
         transform.Translate(dir * MovementSpeed * Time.deltaTime);
 
-        //if (Input.GetKey(KeyCode.Q)) {
-        //    transform.Rotate(Vector3.up * -35f * Time.deltaTime);
-        //}
-
-        //if (Input.GetKey(KeyCode.E)) {
-        //    transform.Rotate(Vector3.up * 35f * Time.deltaTime);
-        //}
+        transform.localRotation = Quaternion.Euler(0f, Camera.main.transform.rotation.eulerAngles.y, 0f);
     }
 
 }
