@@ -22,7 +22,6 @@ namespace Assets.Scripts.Network
 
 		void Awake()
 		{
-
 			if (instance == null)
 				instance = this;
 
@@ -36,12 +35,10 @@ namespace Assets.Scripts.Network
 
 			//Register Listener Events
 			NetEventController.RegisterEvents();
-
 		}
-		// Update is called once per frame
+
 		void FixedUpdate()
 		{
-
 			ClientEntityInterpolation();
 		}
 

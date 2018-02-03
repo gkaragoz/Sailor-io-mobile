@@ -11,15 +11,14 @@ namespace Assets.Scripts.Network.Controllers
 {
 	public static class NetEventController
 	{
-
 		/// <summary>
 		/// Register All SocketIO Events
 		/// </summary>
 		public static void RegisterEvents()
 		{
-			SocketManager.instance.io.On(BaseEvent.connect.ToString(), ConnectionSuccess);
-			SocketManager.instance.io.On(WorldEvent.worldUpdate.ToString(), WorldUpdate);
-			SocketManager.instance.io.On(WorldEvent.getWorldInfo.ToString(), WorldInfoCallback);
+			SocketManager.instance.io.On(BaseEvent.connect.ToString(), OnConnectionSuccess);
+			SocketManager.instance.io.On(WorldEvent.worldUpdate.ToString(), OnWorldUpdate);
+			SocketManager.instance.io.On(WorldEvent.getWorldInfo.ToString(), OnWorldInfoDownloaded);
 		}
 
 
@@ -27,7 +26,7 @@ namespace Assets.Scripts.Network.Controllers
 		/// ConnectionSuccess function is callback when fired after connected successfully to socket
 		/// </summary>
 		/// <param name="e"></param>
-		public static void ConnectionSuccess(SocketIOEvent e)
+		public static void OnConnectionSuccess(SocketIOEvent e)
 		{
 			Debug.Log("[CONNECTED] to: " + SocketManager.instance.io.url);
 			SocketManager.instance.io.Emit(WorldEvent.getWorldInfo.ToString());
@@ -38,7 +37,7 @@ namespace Assets.Scripts.Network.Controllers
 		/// World Update function 
 		/// </summary>
 		/// <param name="e"></param>
-		public static void WorldUpdate(SocketIOEvent e)
+		public static void OnWorldUpdate(SocketIOEvent e)
 		{
 			var updateModel = WorldUpdateModel.CreateFromJSON(e.data.ToString());
 			var now = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc));
@@ -56,7 +55,6 @@ namespace Assets.Scripts.Network.Controllers
 			#region SupplyCrateStatus
 			foreach (var supply in updateModel.supplyCrates)
 			{
-
 				//supply'yin id'si unique
 				// supply senin listende yoksa spawn edip ekle
 				// eger sende varsa fakat gelen listede yoksa, yok etme animasyonu falan baslatabilirsin.
@@ -75,7 +73,7 @@ namespace Assets.Scripts.Network.Controllers
 		/// World Update function 
 		/// </summary>
 		/// <param name="e"></param>
-		public static void WorldInfoCallback(SocketIOEvent e)
+		public static void OnWorldInfoDownloaded(SocketIOEvent e)
 		{
 			Debug.Log("[WORLD INFO DOWNLOADED]");
 			var worldInfoModel = WorldInfoModel.CreateFromJSON(e.data.ToString());
