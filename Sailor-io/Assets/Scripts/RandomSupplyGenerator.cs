@@ -5,7 +5,7 @@ using UnityEngine;
 public class RandomSupplyGenerator : MonoBehaviour {
 
     [Header("Initialize")]
-    public GameObject supplyPrefab;
+    public GameObject[] supplyPrefabs;
     public Transform mapObject;
 
     [Header("Settings")]
@@ -58,13 +58,15 @@ public class RandomSupplyGenerator : MonoBehaviour {
     }
 
     private void InstantiateNewSupply() {
-        if (supplyPrefab == null) {
+        GameObject prefab = GetRandomSupplyPrefab();
+
+        if (prefab == null) {
             Debug.LogError("!Assign a SUPPLY!");
             StopGenerating();
             return;
         }
 
-        Instantiate(supplyPrefab, GetRandomPosition(), Quaternion.identity, parentObject);
+        Instantiate(prefab, GetRandomPosition(), Quaternion.identity, parentObject);
         generatedSuppliesCount++;
     }
 
@@ -110,5 +112,10 @@ public class RandomSupplyGenerator : MonoBehaviour {
         float centerOffset = GetMapCenter().z;
         MAP_WIDTH = centerOffset + (mapObject.GetComponent<MeshRenderer>().bounds.size.z * 0.5f);
         return MAP_WIDTH;
+    }
+
+    private GameObject GetRandomSupplyPrefab() {
+        int randomIndex = Random.Range(0, supplyPrefabs.Length);
+        return supplyPrefabs[randomIndex];
     }
 }

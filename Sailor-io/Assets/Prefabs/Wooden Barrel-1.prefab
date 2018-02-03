@@ -53,6 +53,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4064245814152756}
+  - component: {fileID: 114050797355909514}
   m_Layer: 0
   m_Name: Wooden Barrel-1
   m_TagString: Untagged
@@ -183,3 +184,16 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1251941402471450}
   m_Mesh: {fileID: 4300002, guid: c6d3d3efd7e93684897bd32bc290ca84, type: 3}
+--- !u!114 &114050797355909514
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1717208835168076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 479995e06d0bc8a47ab23cac517eaa6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  clockwise: 0

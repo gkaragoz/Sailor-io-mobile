@@ -196,8 +196,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a61c7f9cdf9753419f7ae9b97217975, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  supplyPrefab: {fileID: 1717531622906888, guid: 5218a6a95efcc594c8dffe722d5a1421,
-    type: 2}
+  supplyPrefabs:
+  - {fileID: 1717208835168076, guid: 252e8cd979242e84db21d82a0583ecd6, type: 2}
+  - {fileID: 1903430876855646, guid: e7f0a93f774dfbb40a6a04de050a3394, type: 2}
   mapObject: {fileID: 674607755}
   generateRate: 0.1
   generateCount: 100
@@ -378,7 +379,7 @@ Transform:
   m_GameObject: {fileID: 674607751}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 1, z: 10}
+  m_LocalScale: {x: 25, y: 1, z: 25}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
