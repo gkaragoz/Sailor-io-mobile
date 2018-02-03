@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114273499169303736}
   - component: {fileID: 114068368333573812}
   m_Layer: 0
-  m_Name: Supply
+  m_Name: SupplyRandomCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
