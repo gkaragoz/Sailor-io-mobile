@@ -199,6 +199,8 @@ MonoBehaviour:
   supplyPrefabs:
   - {fileID: 1717208835168076, guid: 252e8cd979242e84db21d82a0583ecd6, type: 2}
   - {fileID: 1903430876855646, guid: e7f0a93f774dfbb40a6a04de050a3394, type: 2}
+  - {fileID: 1583475191603386, guid: 44b3cd616b9acfa4fba661a8847fa616, type: 2}
+  - {fileID: 1591990169812400, guid: 173f4d11fee170e48864e9c6cbadb5b2, type: 2}
   mapObject: {fileID: 674607755}
   generateRate: 0.1
   generateCount: 100
