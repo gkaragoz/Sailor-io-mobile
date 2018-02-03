@@ -10,6 +10,11 @@ namespace Assets.Scripts.Network.Utils
 		getWorldInfo,
 		worldUpdate
 	}
+	public enum PlayerEvent
+	{
+		playerMouseRotation,
+		playerMove
+	}
 
 	public enum BaseEvent
 	{

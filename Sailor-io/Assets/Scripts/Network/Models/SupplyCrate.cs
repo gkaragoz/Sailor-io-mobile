@@ -13,6 +13,6 @@ namespace Assets.Scripts.Network.ApiModels
 		public double pos_y { get; set; }
 		public string supplyId { get; set; }
 		public int supplyIncome { get; set; }
-		public string supplyName { get; set; }
+		public string assetName { get; set; }
 	}
 }

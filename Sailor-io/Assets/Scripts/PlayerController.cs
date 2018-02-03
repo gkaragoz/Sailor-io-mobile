@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Network;
+using Assets.Scripts.Network.Controllers;
 using UnityEngine;
 
 [System.Serializable]
@@ -12,14 +14,19 @@ public class PlayerController : PlayerEntity {
     private void FixedUpdate() {
         if (Input.GetKey(KeyCode.W)) {
             transform.localPosition += (transform.forward * MovementSpeed * Time.deltaTime);
+			NetInputController.SendPlayerMovementInput(transform.forward, Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.S)) {
             transform.localPosition += (-transform.forward * MovementSpeed * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.A)) {
+	        NetInputController.SendPlayerMovementInput(-transform.forward, Time.deltaTime);
+
+		}
+		if (Input.GetKey(KeyCode.A)) {
             transform.localPosition += (-transform.right * MovementSpeed * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.D)) {
+			NetInputController.SendPlayerMovementInput(-transform.right, Time.deltaTime);
+
+		}
+		if (Input.GetKey(KeyCode.D)) {
             transform.localPosition += (transform.right * MovementSpeed * Time.deltaTime);
         }
 
