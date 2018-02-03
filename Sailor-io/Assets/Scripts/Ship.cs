@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Raft : MonoBehaviour {
+public class Ship : MonoBehaviour {
 
     // Those variables should be private!
     // But for now to show in inspector, they're public.
