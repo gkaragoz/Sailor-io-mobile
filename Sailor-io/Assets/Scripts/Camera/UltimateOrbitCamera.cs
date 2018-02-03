@@ -60,6 +60,8 @@ public class UltimateOrbitCamera : MonoBehaviour
 
     private void Start()
     {
+        Input.multiTouchEnabled = false;
+
         this.targetDistance = this.distance;
         if (this.invertAxisX)
         {
