@@ -25,8 +25,6 @@ public class ShipEntity : MonoBehaviour {
     public List<PlayerEntity> _playerEntities   //Player's those are currently in the ship.
         = new List<PlayerEntity>();
 
-    public Rigidbody _rigidbody;                //Ship's rigidbody for it movements, collision detections.
-
     public string Id {
         get { return _id; } 
         set { _id = value; }
@@ -97,8 +95,4 @@ public class ShipEntity : MonoBehaviour {
         set { _playerEntities = value; }
     }
 
-    public Rigidbody Rigidbody {
-        get { return _rigidbody; }
-        set { _rigidbody = value; }
-    }
 }

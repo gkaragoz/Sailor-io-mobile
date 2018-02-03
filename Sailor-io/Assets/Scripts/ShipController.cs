@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent (typeof(Rigidbody))]
 [System.Serializable]
 public class ShipController : ShipEntity {
 
     public bool rotatingRight, rotatingLeft;
 
     private float _rotationY, _rotationZ;
-
-    private void Awake() {
-        Rigidbody = GetComponent<Rigidbody>();
-    }
 
     void FixedUpdate() {
         transform.Translate(Vector3.forward * MovementSpeed * Time.deltaTime);

@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent (typeof(Rigidbody))]
 [System.Serializable]
 public class PlayerController : PlayerEntity {
 
     private void Awake() {
-        Rigidbody = GetComponent<Rigidbody>();
         //Ship = transform.root.GetComponent<ShipController>();
     }
 

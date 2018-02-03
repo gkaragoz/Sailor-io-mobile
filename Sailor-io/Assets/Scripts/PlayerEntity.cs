@@ -17,7 +17,6 @@ public class PlayerEntity : MonoBehaviour {
     public ShipEntity _ship;                //Player's that has current ship/raft.
     public Enums.SailorType _sailorType;    //Is the player captain of his/her current ship/raft.
     public float _supplyRate;               //Rate depends on player attacked as percentage on distrubutions for total number of supplies in the player's ship/raft collected.
-    public Rigidbody _rigidbody;            //Player's rigidbody for he/she movements, collision detections.
 
     public string Id {
         get { return _id; }
@@ -67,11 +66,6 @@ public class PlayerEntity : MonoBehaviour {
     public float SupplyRate {
         get { return _supplyRate; }
         set { _supplyRate = value; }
-    }
-
-    public Rigidbody Rigidbody {
-        get { return _rigidbody; }
-        set { _rigidbody = value; }
     }
 
     //Player's Name UI.
