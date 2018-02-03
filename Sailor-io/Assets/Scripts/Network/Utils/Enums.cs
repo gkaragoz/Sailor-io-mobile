@@ -7,7 +7,8 @@ namespace Assets.Scripts.Network.Utils
 {
 	public enum WorldEvent
 	{
-		areaUpdate
+		getWorldInfo,
+		worldUpdate
 	}
 
 	public enum BaseEvent
