@@ -4,8 +4,6 @@ using UnityEngine;
 public class UltimateOrbitCamera : MonoBehaviour
 {
     private Transform _transform;
-    public bool autoRotateOn;
-    public bool autoRotateReverse;
     [HideInInspector]
     public int autoRotateReverseValue = 1;
     public float autoRotateSpeed = 0.1f;
@@ -27,11 +25,6 @@ public class UltimateOrbitCamera : MonoBehaviour
     public int invertYValue = 1;
     [HideInInspector]
     public int invertZoomValue = 1;
-    public string kbPanAxisX = "Horizontal";
-    public string kbPanAxisY = "Vertical";
-    public bool kbUseZoomAxis;
-    public string kbZoomAxisName = string.Empty;
-    public bool keyboardControl;
     public bool leftClickToRotate = true;
     public bool limitX;
     public bool limitY = true;
@@ -46,12 +39,6 @@ public class UltimateOrbitCamera : MonoBehaviour
     private Ray ray;
     public bool rightClickToRotate;
     public float smoothingZoom = 0.1f;
-    public string spinAxis = string.Empty;
-    public bool SpinEnabled;
-    public KeyCode spinKey = KeyCode.LeftControl;
-    private bool spinning;
-    private float spinSpeed;
-    public bool spinUseAxis;
     public Transform target;
     private float targetDistance = 10f;
     private float x;
@@ -98,14 +85,6 @@ public class UltimateOrbitCamera : MonoBehaviour
         {
             this.invertZoomValue = 1;
         }
-        if (this.autoRotateOn)
-        {
-            this.autoRotateReverseValue = -1;
-        }
-        else
-        {
-            this.autoRotateReverseValue = 1;
-        }
         this._transform = base.transform;
         if (base.GetComponent<Rigidbody>() != null)
         {
@@ -122,52 +101,14 @@ public class UltimateOrbitCamera : MonoBehaviour
     {
         if (this.target != null)
         {
-            if (this.autoRotateOn)
-            {
-                this.xVelocity += (this.autoRotateSpeed * this.autoRotateReverseValue) * Time.deltaTime;
-            }
             if (this.mouseControl)
             {
                 if ((!this.clickToRotate || (this.leftClickToRotate && Input.GetMouseButton(0))) || (this.rightClickToRotate && Input.GetMouseButton(1)))
                 {
                     this.xVelocity += (Input.GetAxis(this.mouseAxisX) * this.xSpeed) * this.invertXValue;
                     this.yVelocity -= (Input.GetAxis(this.mouseAxisY) * this.ySpeed) * this.invertYValue;
-                    this.spinning = false;
                 }
                 this.zoomVelocity -= (Input.GetAxis(this.mouseAxisZoom) * this.zoomSpeed) * this.invertZoomValue;
-            }
-            if (this.keyboardControl)
-            {
-                if ((Input.GetAxis(this.kbPanAxisX) != 0f) || (Input.GetAxis(this.kbPanAxisY) != 0f))
-                {
-                    this.xVelocity -= (Input.GetAxisRaw(this.kbPanAxisX) * (this.xSpeed / 2f)) * this.invertXValue;
-                    this.yVelocity += (Input.GetAxisRaw(this.kbPanAxisY) * (this.ySpeed / 2f)) * this.invertYValue;
-                    this.spinning = false;
-                }
-                if (this.kbUseZoomAxis)
-                {
-                    this.zoomVelocity += (Input.GetAxis(this.kbZoomAxisName) * (this.zoomSpeed / 10f)) * this.invertXValue;
-                }
-                if (Input.GetKey(this.zoomInKey))
-                {
-                    this.zoomVelocity -= (this.zoomSpeed / 10f) * this.invertZoomValue;
-                }
-                if (Input.GetKey(this.zoomOutKey))
-                {
-                    this.zoomVelocity += (this.zoomSpeed / 10f) * this.invertZoomValue;
-                }
-            }
-            if (this.SpinEnabled && ((this.mouseControl && this.clickToRotate) || this.keyboardControl))
-            {
-                if ((this.spinUseAxis && (Input.GetAxis(this.spinAxis) != 0f)) || (!this.spinUseAxis && Input.GetKey(this.spinKey)))
-                {
-                    this.spinning = true;
-                    this.spinSpeed = Mathf.Min(this.xVelocity, this.maxSpinSpeed);
-                }
-                if (this.spinning)
-                {
-                    this.xVelocity = this.spinSpeed;
-                }
             }
             if (this.limitX)
             {
@@ -213,6 +154,7 @@ public class UltimateOrbitCamera : MonoBehaviour
             }
             this.targetDistance += this.zoomVelocity;
             this.distance = Mathf.Lerp(this.distance, this.targetDistance, this.smoothingZoom);
+
             if (this.cameraCollision)
             {
                 Vector3 vector = this._transform.position - this.target.position;
@@ -222,12 +164,10 @@ public class UltimateOrbitCamera : MonoBehaviour
                     this.distance = this.hit.distance;
                 }
             }
+
             this.position = ((Vector3) (this._transform.rotation * new Vector3(0f, 0f, -this.distance))) + this.target.position;
             this._transform.position = this.position;
-            if (!this.SpinEnabled || !this.spinning)
-            {
-                this.xVelocity *= this.dampeningX;
-            }
+            this.xVelocity *= this.dampeningX;
             this.yVelocity *= this.dampeningY;
             this.zoomVelocity = 0f;
         }

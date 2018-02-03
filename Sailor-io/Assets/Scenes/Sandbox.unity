@@ -947,6 +947,10 @@ Prefab:
       propertyPath: url
       value: wss://sailor-gameserver.herokuapp.com//socket.io/?EIO=4&transport=websocket
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 010d39cbd03ee4c99a746c1f8ecdc0d8, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 010d39cbd03ee4c99a746c1f8ecdc0d8, type: 2}
   m_IsPrefabParent: 0
@@ -1400,11 +1404,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7252234f2028c40bc4d205f52efe9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  autoRotateOn: 0
-  autoRotateReverse: 0
   autoRotateReverseValue: 1
   autoRotateSpeed: 0.1
-  cameraCollision: 0
+  cameraCollision: 1
   clickToRotate: 1
   collisionRadius: 0.25
   dampeningX: 0.9
@@ -1418,11 +1420,6 @@ MonoBehaviour:
   invertXValue: 1
   invertYValue: 1
   invertZoomValue: 1
-  kbPanAxisX: Horizontal
-  kbPanAxisY: Vertical
-  kbUseZoomAxis: 0
-  kbZoomAxisName: 
-  keyboardControl: 0
   leftClickToRotate: 1
   limitX: 0
   limitY: 1
@@ -1435,10 +1432,6 @@ MonoBehaviour:
   mouseControl: 1
   rightClickToRotate: 0
   smoothingZoom: 0.1
-  spinAxis: 
-  SpinEnabled: 0
-  spinKey: 306
-  spinUseAxis: 0
   target: {fileID: 1109780873}
   xLimitOffset: 0
   xMaxLimit: 60
