@@ -14,10 +14,10 @@ public class PlayerEntity : MonoBehaviour {
     public float _movementSpeed;            //Player's movement speed.
     public float _attackDamage;             //Player's attack damage.
     public float _attackRate;               //Player's attack rate. (seconds)
-    public Ship _ship;                      //Player's that has current ship/raft.
+    public ShipEntity _ship;                //Player's that has current ship/raft.
     public Enums.SailorType _sailorType;    //Is the player captain of his/her current ship/raft.
     public float _supplyRate;               //Rate depends on player attacked as percentage on distrubutions for total number of supplies in the player's ship/raft collected.
-    public Rigidbody _rigidbody;            //Player's rigidbody for he/she movemenets, collision detections.
+    public Rigidbody _rigidbody;            //Player's rigidbody for he/she movements, collision detections.
 
     public string Id {
         get { return _id; }
@@ -54,7 +54,7 @@ public class PlayerEntity : MonoBehaviour {
         set { _attackRate = value; }
     }
 
-    public Ship Ship {
+    public ShipEntity Ship {
         get { return _ship; }
         set { _ship = value; }
     }

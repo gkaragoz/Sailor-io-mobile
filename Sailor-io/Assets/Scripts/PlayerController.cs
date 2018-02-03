@@ -6,12 +6,12 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerController : PlayerEntity {
 
-    void Awake() {
+    private void Awake() {
         Rigidbody = GetComponent<Rigidbody>();
         //Ship = transform.root.GetComponent<ShipController>();
     }
 
-    void FixedUpdate() {
+    private void FixedUpdate() {
         if (Input.GetKey(KeyCode.W)) {
             transform.localPosition += (transform.forward * MovementSpeed * Time.deltaTime);
         }

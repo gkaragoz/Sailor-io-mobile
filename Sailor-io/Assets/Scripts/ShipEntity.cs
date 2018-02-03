@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Ship : MonoBehaviour {
+public class ShipEntity : MonoBehaviour {
 
     // Those variables should be private!
     // But for now to show in inspector, they're public.
@@ -13,6 +13,7 @@ public class Ship : MonoBehaviour {
     public float _currentHealth;                //Ship's current health;
     public float _movementSpeed;                //Ship's movement speed;
     public float _rotationSpeed;                //Ship's rotation speed;
+    public float _slopeSpeed;                   //Ship's slope speed that is rotated on Z.
     public int _maxSuppliesCount;               //Maximum number of supplies that ship can carry.
     public int _currentSuppliesCount;           //Current number of supplies that ship already carry.
     public int _maxSailorsCount;                //Maximum number of players that ship can carry.
@@ -23,6 +24,8 @@ public class Ship : MonoBehaviour {
 
     public List<PlayerEntity> _playerEntities   //Player's those are currently in the ship.
         = new List<PlayerEntity>();
+
+    public Rigidbody _rigidbody;                //Ship's rigidbody for it movements, collision detections.
 
     public string Id {
         get { return _id; } 
@@ -52,6 +55,11 @@ public class Ship : MonoBehaviour {
     public float RotationSpeed {
         get { return _rotationSpeed; }
         set { _rotationSpeed = value; }
+    }
+
+    public float SlopeSpeed {
+        get { return _slopeSpeed; }
+        set { _slopeSpeed = value; }
     }
 
     public int MaxSuppliesCount {
@@ -87,5 +95,10 @@ public class Ship : MonoBehaviour {
     public List<PlayerEntity> PlayerEntities {
         get { return _playerEntities; }
         set { _playerEntities = value; }
+    }
+
+    public Rigidbody Rigidbody {
+        get { return _rigidbody; }
+        set { _rigidbody = value; }
     }
 }
