@@ -8,7 +8,7 @@ using UnityEngine;
 public class PlayerController : PlayerEntity {
 
     private void Awake() {
-        //Ship = transform.root.GetComponent<ShipController>();
+        Ship = transform.root.GetComponent<ShipController>();
     }
 
     private void FixedUpdate() {
@@ -33,56 +33,56 @@ public class PlayerController : PlayerEntity {
         transform.localRotation = Quaternion.Euler(0f, Camera.main.transform.rotation.eulerAngles.y, 0f);
     }
 
-    //void OnTriggerEnter(Collider c) {
-    //    if (c.name == "Right") {
-    //        parentShip.GetComponent<ShipController>().rotatingRight = true;
-    //        parentShip.GetComponent<ShipController>().rotatingLeft = false;
+    void OnTriggerEnter(Collider other) {
+        if (other.name == "R_Rudder") {
+            Ship.GetComponent<ShipController>().rotatingRight = true;
+            Ship.GetComponent<ShipController>().rotatingLeft = false;
 
-    //    } else if (c.name == "Left") {
-    //        parentShip.GetComponent<ShipController>().rotatingRight = false;
-    //        parentShip.GetComponent<ShipController>().rotatingLeft = true;
-    //    }
+        } else if (other.name == "L_Rudder") {
+            Ship.GetComponent<ShipController>().rotatingRight = false;
+            Ship.GetComponent<ShipController>().rotatingLeft = true;
+        }
+    }
 
-    //}
-    //void OnTriggerExit(Collider c) {
-    //    parentShip.GetComponent<ShipController>().rotatingRight = false;
-    //    parentShip.GetComponent<ShipController>().rotatingLeft = false;
-    //}
-    
+    void OnTriggerExit(Collider other) {
+        Ship.GetComponent<ShipController>().rotatingRight = false;
+        Ship.GetComponent<ShipController>().rotatingLeft = false;
+    }
+
     //private void Fire() {
     //    if (Input.GetKeyDown(KeyCode.Tab)) {
-            //cannonbollPath = new Vector3[20];
-            //Vector3 vEnd = cannonboll.transform.GetChild(0).position;
-            //Vector3 vStart = cannonboll.transform.position;
+    //cannonbollPath = new Vector3[20];
+    //Vector3 vEnd = cannonboll.transform.GetChild(0).position;
+    //Vector3 vStart = cannonboll.transform.position;
 
-            //float dX = vEnd.x - vStart.x;
-            //float dY = vEnd.y - vStart.y;
-            //float dZ = vEnd.z - vStart.z;
+    //float dX = vEnd.x - vStart.x;
+    //float dY = vEnd.y - vStart.y;
+    //float dZ = vEnd.z - vStart.z;
 
-            //float vX = dX * 300 * 0.02f * 2;
-            //float vY = dY * 300 / 50 * 2;
-            //float vZ = dZ * 300 * 0.02f * 2;
+    //float vX = dX * 300 * 0.02f * 2;
+    //float vY = dY * 300 / 50 * 2;
+    //float vZ = dZ * 300 * 0.02f * 2;
 
-            //for (int ii = 0; ii < 20; ii++) {
-            //    float posX = vX * ii * timeStep + Physics.gravity.x;
-            //    float posY = vY * ii * timeStep + 0.5f * Physics.gravity.y * Mathf.Pow(ii * timeStep, 2);
-            //    float posZ = vZ * ii * timeStep + Physics.gravity.z;
-            //    cannonbollPath[ii] = new Vector3(posX, posY, posZ) + vEnd;
+    //for (int ii = 0; ii < 20; ii++) {
+    //    float posX = vX * ii * timeStep + Physics.gravity.x;
+    //    float posY = vY * ii * timeStep + 0.5f * Physics.gravity.y * Mathf.Pow(ii * timeStep, 2);
+    //    float posZ = vZ * ii * timeStep + Physics.gravity.z;
+    //    cannonbollPath[ii] = new Vector3(posX, posY, posZ) + vEnd;
 
-            //    this.GetComponent<LineRenderer>().SetPosition(ii, new Vector3(posX, posY, posZ) + vEnd);
-            //}
+    //    this.GetComponent<LineRenderer>().SetPosition(ii, new Vector3(posX, posY, posZ) + vEnd);
+    //}
 
-            //// GameObject newCannonBall = (GameObject)Instantiate(Resources.Load("CannonBalls/CannonBall"), cannonbollPath[0], Quaternion.identity);
-            //// LeanTween.move(newCannonBall, cannonbollPath, 10f).setEaseInOutQuad();
-            //// newCannonBall.transform.LookAt((vEnd - vStart).normalized + newCannonBall.transform.position);
-            //// newCannonBall.GetComponent<Rigidbody>().AddForce((vEnd - vStart) * 600);
-            //ISFSObject param = new SFSObject();
-            //param.PutFloat("posX", cannonbollPath[0].x); param.PutFloat("dirX", (vEnd - vStart).x);
-            //param.PutFloat("posY", cannonbollPath[0].y); param.PutFloat("dirY", (vEnd - vStart).y);
-            //param.PutFloat("posZ", cannonbollPath[0].z); param.PutFloat("dirZ", (vEnd - vStart).z);
+    //// GameObject newCannonBall = (GameObject)Instantiate(Resources.Load("CannonBalls/CannonBall"), cannonbollPath[0], Quaternion.identity);
+    //// LeanTween.move(newCannonBall, cannonbollPath, 10f).setEaseInOutQuad();
+    //// newCannonBall.transform.LookAt((vEnd - vStart).normalized + newCannonBall.transform.position);
+    //// newCannonBall.GetComponent<Rigidbody>().AddForce((vEnd - vStart) * 600);
+    //ISFSObject param = new SFSObject();
+    //param.PutFloat("posX", cannonbollPath[0].x); param.PutFloat("dirX", (vEnd - vStart).x);
+    //param.PutFloat("posY", cannonbollPath[0].y); param.PutFloat("dirY", (vEnd - vStart).y);
+    //param.PutFloat("posZ", cannonbollPath[0].z); param.PutFloat("dirZ", (vEnd - vStart).z);
 
-            //ServerController.sfs.Send(new ExtensionRequest(CMD.fire, param, ServerController.sfs.LastJoinedRoom));
-        //}
+    //ServerController.sfs.Send(new ExtensionRequest(CMD.fire, param, ServerController.sfs.LastJoinedRoom));
+    //}
     //}
 
 }
