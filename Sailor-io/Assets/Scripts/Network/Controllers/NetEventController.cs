@@ -28,6 +28,7 @@ namespace Assets.Scripts.Network.Controllers
 		public static void OnConnectionSuccess(SocketIOEvent e)
 		{
 			Debug.Log("[CONNECTED] to: " + SocketManager.instance.io.url);
+			Debug.Log("[MY CLIENT ID] > " + SocketManager.instance.io.sid);
 			SocketManager.instance.io.Emit(WorldEvent.getWorldInfo.ToString());
 		}
 
@@ -59,6 +60,16 @@ namespace Assets.Scripts.Network.Controllers
                 WorldManager.instance.InstantiateSupply(supply.supplyId, supply.assetName, position);
 			}
 			#endregion
+
+			#region Ships
+
+			foreach (var ship in updateModel.shipModels)
+			{
+				Vector3 position = new Vector3(ship.pos_x, ship.pos_y, ship.pos_z);
+				//WorldManager.instance.InstantiateSupply(supply.supplyId, supply.assetName, position);
+			}
+
+			#endregion
 		}
 		
         /// <summary>
@@ -72,7 +83,12 @@ namespace Assets.Scripts.Network.Controllers
 
             WorldManager.instance.BuildWorld(worldInfoModel);
 
-            SocketManager.instance.io.On(WorldEvent.worldUpdate.ToString(), OnWorldUpdate);
-        }
+			SocketManager.instance.io.Emit(PlayerEvent.playerNew.ToString());
+			SocketManager.instance.io.On(WorldEvent.worldUpdate.ToString(), OnWorldUpdate);
+
+			JSONObject userData = new JSONObject();
+			userData.AddField("shipType", Ships.Raft1.ToString());
+			SocketManager.instance.io.Emit(ShipEvent.newShip.ToString(), userData);
+		}
 	}
 }

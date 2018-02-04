@@ -10,10 +10,27 @@ namespace Assets.Scripts.Network.Utils
 		getWorldInfo,
 		worldUpdate
 	}
+	public enum ShipEvent
+	{
+		newShip
+	}
 	public enum PlayerEvent
 	{
 		playerMouseRotation,
-		playerMove
+		playerMove,
+		playerNew
+	}
+	public enum Ships
+	{
+		Raft1,
+		Raft2,
+		Raft3,
+		Boat1,
+		Boat2,
+		Boat3,
+		Destroyer1,
+		Destroyer2,
+		Destroyer3,
 	}
 
 	public enum BaseEvent

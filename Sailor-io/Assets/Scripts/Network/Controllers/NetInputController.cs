@@ -16,7 +16,6 @@ namespace Assets.Scripts.Network.Controllers
 		/// <param name="e"></param>
 		public static void SendPlayerRotationInput(Vector3 directionVector, float dtTime)
 		{
-			JSONObject userData = new JSONObject();
 
 			#region ServerReconciliation
 			PlayerMovementRecModel newRequest = new PlayerMovementRecModel();
@@ -31,6 +30,7 @@ namespace Assets.Scripts.Network.Controllers
 			SocketManager.pendingInputs.Add(newRequest);
 			#endregion
 
+			JSONObject userData = new JSONObject();
 			userData.AddField("sequenceId", SocketManager.nonAckInputIndex);
 			userData.AddField("deltaTime", dtTime.ToString());
 			userData.AddField("vcX", directionVector.x);
