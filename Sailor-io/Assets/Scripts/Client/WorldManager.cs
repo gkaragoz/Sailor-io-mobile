@@ -75,8 +75,10 @@ public class WorldManager : MonoBehaviour
 		}
 		else
 		{
-			//var lastInput = player.inputs.LastOrDefault();
+			
 			var shipObject = GameObject.Find(shipFromServer.Id).GetComponent<ShipEntity>();
+
+
 
 			#region EntityInterpolation
 
