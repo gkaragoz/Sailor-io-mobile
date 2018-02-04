@@ -13,24 +13,24 @@ public class PlayerController : PlayerEntity {
 
     private void FixedUpdate() {
         if (Input.GetKey(KeyCode.W)) {
-            transform.localPosition += (transform.forward * MovementSpeed * Time.deltaTime);
+            transform.position += (transform.forward * MovementSpeed * Time.deltaTime);
 			NetInputController.SendPlayerMovementInput(transform.forward, Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.S)) {
-            transform.localPosition += (-transform.forward * MovementSpeed * Time.deltaTime);
+            transform.position += (-transform.forward * MovementSpeed * Time.deltaTime);
 	        NetInputController.SendPlayerMovementInput(-transform.forward, Time.deltaTime);
 
 		}
 		if (Input.GetKey(KeyCode.A)) {
-            transform.localPosition += (-transform.right * MovementSpeed * Time.deltaTime);
+            transform.position += (-transform.right * MovementSpeed * Time.deltaTime);
 			NetInputController.SendPlayerMovementInput(-transform.right, Time.deltaTime);
 
 		}
 		if (Input.GetKey(KeyCode.D)) {
-            transform.localPosition += (transform.right * MovementSpeed * Time.deltaTime);
+            transform.position += (transform.right * MovementSpeed * Time.deltaTime);
         }
 
-        transform.localRotation = Quaternion.Euler(0f, Camera.main.transform.rotation.eulerAngles.y, 0f);
+        transform.rotation = Quaternion.Euler(0f, Camera.main.transform.rotation.eulerAngles.y, 0f);
     }
 
     void OnTriggerEnter(Collider other) {
