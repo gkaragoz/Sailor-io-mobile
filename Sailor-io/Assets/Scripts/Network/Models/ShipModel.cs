@@ -19,8 +19,8 @@ namespace Assets.Scripts.Network.Models
 		public int currentSuppliesCount;
 		public int maxSailorsCount;
 		public int currentSailorsCount;
-		public float maxHealth;
-		public float currentHealth;
+		public int maxHealth;
+		public int currentHealth;
 		public float slopeSpeed;
 		public float rotationSpeed;
 		public float movementSpeed;
