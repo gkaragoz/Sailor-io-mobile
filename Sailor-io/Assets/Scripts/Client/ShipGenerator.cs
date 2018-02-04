@@ -37,7 +37,7 @@ namespace Assets.Scripts.Client
 			ShipEntity entity = Instantiate(prefab.gameObject, position, Quaternion.identity, parentObject).GetComponent<ShipEntity>();
 
 			entity.Id = shipFromServer.Id;
-			entity.name = shipFromServer.Id;
+			entity.Name = shipFromServer.Id;
 			entity.MaxSailorsCount = shipFromServer.maxSailorsCount;
 			entity.CurrentSailorsCount = shipFromServer.currentSailorsCount;
 			entity.MaxSuppliesCount = shipFromServer.maxSuppliesCount;

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 235246904}
   - component: {fileID: 235246903}
   - component: {fileID: 235246905}
+  - component: {fileID: 235246906}
   m_Layer: 0
   m_Name: _GameManager
   m_TagString: Untagged
@@ -216,6 +217,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shipPrefabs:
   - {fileID: 1163405589843710, guid: d476f85a3a5be674da133003ddce281f, type: 2}
+--- !u!114 &235246906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 235246899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c6ac4ee610a392489005b371d787d3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &252254412
 GameObject:
   m_ObjectHideFlags: 0
@@ -477,7 +489,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 010d39cbd03ee4c99a746c1f8ecdc0d8, type: 2}
       propertyPath: url
-      value: wss://sailor-gameserver.herokuapp.com//socket.io/?EIO=4&transport=websocket
+      value: ws://localhost:9980//socket.io/?EIO=4&transport=websocket
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 010d39cbd03ee4c99a746c1f8ecdc0d8, type: 2}
       propertyPath: m_IsActive
