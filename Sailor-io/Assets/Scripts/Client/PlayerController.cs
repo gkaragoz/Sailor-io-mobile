@@ -6,7 +6,7 @@ using UnityEngine;
 
 [System.Serializable]
 public class PlayerController : PlayerEntity {
-
+    
     private void Awake() {
         Ship = transform.root.GetComponent<ShipController>();
     }
@@ -14,20 +14,28 @@ public class PlayerController : PlayerEntity {
     private void FixedUpdate() {
         if (Input.GetKey(KeyCode.W)) {
             transform.position += (transform.forward * MovementSpeed * Time.deltaTime);
-			NetInputController.SendPlayerMovementInput(transform.forward, Time.deltaTime);
+
+            if (GameManager.instance.offlineMode == false)
+			    NetInputController.SendPlayerMovementInput(transform.forward, Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.S)) {
             transform.position += (-transform.forward * MovementSpeed * Time.deltaTime);
-	        NetInputController.SendPlayerMovementInput(-transform.forward, Time.deltaTime);
+            
+            if (GameManager.instance.offlineMode == false)
+                NetInputController.SendPlayerMovementInput(-transform.forward, Time.deltaTime);
 
 		}
 		if (Input.GetKey(KeyCode.A)) {
             transform.position += (-transform.right * MovementSpeed * Time.deltaTime);
-			NetInputController.SendPlayerMovementInput(-transform.right, Time.deltaTime);
 
+            if (GameManager.instance.offlineMode == false)
+                NetInputController.SendPlayerMovementInput(-transform.right, Time.deltaTime);
 		}
 		if (Input.GetKey(KeyCode.D)) {
             transform.position += (transform.right * MovementSpeed * Time.deltaTime);
+
+            if (GameManager.instance.offlineMode == false)
+                NetInputController.SendPlayerMovementInput(transform.right, Time.deltaTime);
         }
 
         transform.rotation = Quaternion.Euler(0f, Camera.main.transform.rotation.eulerAngles.y, 0f);

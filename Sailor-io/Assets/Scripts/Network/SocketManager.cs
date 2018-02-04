@@ -31,7 +31,7 @@ namespace Assets.Scripts.Network
 		}
 		void Start()
 		{
-			io = GameObject.Find("SocketIO").GetComponent<SocketIOComponent>();
+			io = GetComponent<SocketIOComponent>();
 
 			//Register Listener Events
 			NetEventController.RegisterEvents();
