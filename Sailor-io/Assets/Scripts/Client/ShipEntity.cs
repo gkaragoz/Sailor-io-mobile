@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Network.Models;
 using UnityEngine;
 
 [System.Serializable]
@@ -25,7 +26,10 @@ public class ShipEntity : MonoBehaviour {
     public List<PlayerEntity> _playerEntities   //Player's those are currently in the ship.
         = new List<PlayerEntity>();
 
-    public string Id {
+	public List<PositionEntryModel> _positionBuffer
+		= new List<PositionEntryModel>();
+
+	public string Id {
         get { return _id; } 
         set { _id = value; }
     }
@@ -93,6 +97,11 @@ public class ShipEntity : MonoBehaviour {
     public List<PlayerEntity> PlayerEntities {
         get { return _playerEntities; }
         set { _playerEntities = value; }
+    }
+
+    public List<PositionEntryModel> PositionEntries {
+        get { return _positionBuffer; }
+        set { _positionBuffer = value; }
     }
 
 }

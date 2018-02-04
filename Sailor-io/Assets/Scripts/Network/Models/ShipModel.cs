@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using JetBrains.Annotations;
 
 namespace Assets.Scripts.Network.Models
 {
@@ -24,5 +25,7 @@ namespace Assets.Scripts.Network.Models
 		public float slopeSpeed;
 		public float rotationSpeed;
 		public float movementSpeed;
+		[CanBeNull] public InputModel[] inputs;
+
 	}
 }

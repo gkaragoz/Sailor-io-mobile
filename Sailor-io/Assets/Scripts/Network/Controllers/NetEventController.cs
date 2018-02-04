@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Assets.Scripts.Network.ApiModels;
+using Assets.Scripts.Network.Models;
 using Assets.Scripts.Network.Utils;
 using SocketIO;
 using UnityEngine;
@@ -45,12 +46,10 @@ namespace Assets.Scripts.Network.Controllers
 			var updateTime = double.Parse(updateModel.updateTime);
 			var currentClientTime = now.TotalSeconds;
 			var latency = currentClientTime - updateTime;
-			//GameManager.timeBetweenTick = (float)updateModel.updatePassTime / 1000;
+			SocketManager.timeBetweenTick = (float)updateModel.updatePassTime / 1000;
 
-			//DebugManager.instance.latencyTxt.text = "Latency: " + latency.ToString() + " ms";
-			//GameManager.latency = (int)latency;
-			//GameManager.tickRate = updateModel.svTickRate;
-			//DebugManager.instance.serverTickRate.text = "Tick Rate: " + updateModel.svTickRate.ToString();
+			SocketManager.latency = (int)latency;
+			SocketManager.tickRate = updateModel.svTickRate;
 
             //HandleSupplies
 			#region SupplyCrateStatus
@@ -62,13 +61,10 @@ namespace Assets.Scripts.Network.Controllers
 			#endregion
 
 			#region Ships
-
-			foreach (var ship in updateModel.shipModels)
+			foreach (var shipFromServer in updateModel.shipModels)
 			{
-				Vector3 position = new Vector3(ship.pos_x, ship.pos_y, ship.pos_z);
-				//WorldManager.instance.InstantiateSupply(supply.supplyId, supply.assetName, position);
+				WorldManager.instance.UpdateShips(shipFromServer);				
 			}
-
 			#endregion
 		}
 		

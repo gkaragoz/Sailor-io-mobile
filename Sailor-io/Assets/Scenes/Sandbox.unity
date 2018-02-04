@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 235246902}
   - component: {fileID: 235246904}
   - component: {fileID: 235246903}
+  - component: {fileID: 235246905}
   m_Layer: 0
   m_Name: _GameManager
   m_TagString: Untagged
@@ -201,6 +202,20 @@ MonoBehaviour:
   MAP_WIDTH: 0
   MAP_HEIGHT: 0
   supplyEntities: []
+  shipEntities: []
+--- !u!114 &235246905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 235246899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 705950399f384404dba60870b612acb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shipPrefabs:
+  - {fileID: 1163405589843710, guid: d476f85a3a5be674da133003ddce281f, type: 2}
 --- !u!1 &252254412
 GameObject:
   m_ObjectHideFlags: 0
