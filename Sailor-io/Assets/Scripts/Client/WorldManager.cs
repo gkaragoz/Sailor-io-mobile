@@ -78,12 +78,16 @@ public class WorldManager : MonoBehaviour
 			
 			var shipObject = GameObject.Find(shipFromServer.Id).GetComponent<ShipEntity>();
 
-
-
 			#region EntityInterpolation
 
 			var clientInputTs = (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
 			var positionVector3 = new Vector3(shipFromServer.pos_x, shipFromServer.pos_y, shipFromServer.pos_z);
+			if (shipFromServer.captainUserId == shipObject.CaptainUserId)
+			{
+				DebugManager.instance.usersShipVector.text = string.Format("Ship Server Pos: x:{0} y: {1} z: {2}", (float)shipFromServer.pos_x,
+					(float)shipFromServer.pos_y, (float)shipFromServer.pos_z);
+				DebugManager.instance.usersShipAngle.text = string.Format("Ship Server Angle: {0}", (float)shipFromServer.viewAngle);
+			}
 
 			shipObject.PositionEntries.Add(new
 				PositionEntryModel
@@ -91,7 +95,6 @@ public class WorldManager : MonoBehaviour
 				position = positionVector3,
 				updateTime = clientInputTs
 			});
-
 
 			#endregion
 

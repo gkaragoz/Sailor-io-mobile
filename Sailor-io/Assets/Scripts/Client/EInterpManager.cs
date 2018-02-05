@@ -35,8 +35,6 @@ namespace Assets.Scripts.Client
 				if (shipEntity.PositionEntries.Count == 0)
 					continue;
 
-
-
 				while (shipEntity.PositionEntries.Count >= 2 && shipEntity.PositionEntries[1].updateTime <= clientRenderTime)
 				{
 					shipEntity.PositionEntries = shipEntity.PositionEntries.Skip(1).ToList();

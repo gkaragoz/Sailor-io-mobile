@@ -8,7 +8,8 @@ namespace Assets.Scripts.Network.Utils
 	public enum WorldEvent
 	{
 		getWorldInfo,
-		worldUpdate
+		worldUpdate,
+		
 	}
 	public enum ShipEvent
 	{
@@ -18,7 +19,8 @@ namespace Assets.Scripts.Network.Utils
 	{
 		playerMouseRotation,
 		playerMove,
-		playerNew
+		playerNew,
+		playerDisconnected
 	}
 	public enum Ships
 	{

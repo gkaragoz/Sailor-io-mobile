@@ -36,6 +36,7 @@ namespace Assets.Scripts.Client
 
 			ShipEntity entity = Instantiate(prefab.gameObject, position, Quaternion.identity, parentObject).GetComponent<ShipEntity>();
 
+
 			entity.Id = shipFromServer.Id;
 			entity.name = shipFromServer.Id;
 			entity.Name = shipFromServer.Id;
@@ -43,7 +44,7 @@ namespace Assets.Scripts.Client
 			entity.CurrentSailorsCount = shipFromServer.currentSailorsCount;
 			entity.MaxSuppliesCount = shipFromServer.maxSuppliesCount;
 			entity.CurrentSuppliesCount = shipFromServer.currentSuppliesCount;
-
+			entity.CaptainUserId = shipFromServer.captainUserId;
 			entity.MovementSpeed = shipFromServer.movementSpeed;
 			entity.SlopeSpeed = shipFromServer.slopeSpeed;
 			entity.RotationSpeed = shipFromServer.rotationSpeed;
