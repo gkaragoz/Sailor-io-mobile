@@ -58,16 +58,16 @@ public class PlayerController : PlayerEntity {
 
         switch (direction) {
             case Direction.Right:
-                tempPos += (transform.right * (MovementSpeed + 1f) * Time.deltaTime);
+                tempPos += (transform.right * (MovementSpeed + 5f) * Time.deltaTime);
             break;
             case Direction.Left:
-                tempPos += (-transform.right * (MovementSpeed + 1f) * Time.deltaTime);
+                tempPos += (-transform.right * (MovementSpeed + 5f) * Time.deltaTime);
             break;
             case Direction.Forward:
-                tempPos += (transform.forward * (MovementSpeed + 1f) * Time.deltaTime);
+                tempPos += (transform.forward * (MovementSpeed + 5f) * Time.deltaTime);
             break;
             case Direction.Back:
-                tempPos += (-transform.forward * (MovementSpeed + 1f) * Time.deltaTime);
+                tempPos += (-transform.forward * (MovementSpeed + 5f) * Time.deltaTime);
             break;
         }
 

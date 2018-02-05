@@ -20,7 +20,8 @@ public class ShipEntity : MonoBehaviour {
     public int _maxSailorsCount;                //Maximum number of players that ship can carry.
     public int _currentSailorsCount;            //Current number of players that ship already carry.
     public int _marketPrice;                    //Ship's price on market that players can buy.
-    public string _captainUserId;                    //Captains User Id
+    public string _captainUserId;               //Captains User Id
+    public float _supplyCollectorRange;         //Ability of ship's distance between supply and itself to collect supplies.
 
     public PlayerEntity _captain;               //The captain of the ship.
 
@@ -91,6 +92,11 @@ public class ShipEntity : MonoBehaviour {
     public string CaptainUserId {
         get { return _captainUserId; }
         set { _captainUserId = value; }
+    }
+
+    public float SupplyCollectorRange {
+        get { return _supplyCollectorRange; }
+        set { _supplyCollectorRange = value; }
     }
 
     public PlayerEntity Captain {

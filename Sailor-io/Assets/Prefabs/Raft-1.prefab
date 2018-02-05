@@ -466,6 +466,7 @@ MonoBehaviour:
   _currentSailorsCount: 0
   _marketPrice: 0
   _captainUserId: 
+  _supplyCollectorRange: 10
   _captain: {fileID: 0}
   _playerEntities: []
   rotatingRight: 0
