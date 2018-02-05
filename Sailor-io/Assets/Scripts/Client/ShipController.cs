@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class ShipController : ShipEntity
 {
+    public GameObject boxCollidersParentObj;
 
 	public bool rotatingRight, rotatingLeft;
 
@@ -24,7 +25,6 @@ public class ShipController : ShipEntity
 				if (_rotationZ > -15f)
 					_rotationZ -= Time.deltaTime * SlopeSpeed;
 				transform.rotation = Quaternion.Euler(0, _rotationY, _rotationZ);
-
 			}
 			else if (rotatingLeft)
 			{
@@ -45,8 +45,12 @@ public class ShipController : ShipEntity
 				}
 				transform.rotation = Quaternion.Euler(0, _rotationY, _rotationZ);
 			}
-		}
-	}
+
+            boxCollidersParentObj.transform.position = transform.position;
+            Debug.Log(transform.rotation.eulerAngles.y);
+            boxCollidersParentObj.transform.localRotation = Quaternion.Euler(new Vector3(boxCollidersParentObj.transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, boxCollidersParentObj.transform.rotation.eulerAngles.z));
+        }
+    }
 
     bool IsSupplyInRange() {
         float distance = 0f;
