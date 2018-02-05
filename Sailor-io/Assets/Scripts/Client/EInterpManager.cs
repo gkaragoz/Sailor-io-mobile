@@ -19,10 +19,11 @@ namespace Assets.Scripts.Client
 
 		}
 		// Update is called once per frame
-		void FixedUpdate()
+		void Update()
 		{
 			ShipInterpMovement();
 		}
+
 		public void ShipInterpMovement()
 		{
 			var now = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0));
@@ -60,7 +61,6 @@ namespace Assets.Scripts.Client
 
 					var interpX = x0 + (x1 - x0) * (clientRenderTime - t0) / (t1 - t0);
 					var interpZ = z0 + (z1 - z0) * (clientRenderTime - t0) / (t1 - t0);
-
 
 					var directionVector = new Vector3((float)interpX, shipEntity.transform.position.y, (float)interpZ);
 					shipEntity.transform.position = directionVector;

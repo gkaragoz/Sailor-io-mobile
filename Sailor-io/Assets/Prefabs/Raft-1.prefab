@@ -50,6 +50,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4189055586496830}
+  - component: {fileID: 114779041382299004}
   m_Layer: 0
   m_Name: Raft-1
   m_TagString: Untagged
@@ -441,3 +442,31 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 10, z: 15.862606}
   m_Center: {x: 0, y: 0.5, z: -0.05970311}
+--- !u!114 &114779041382299004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1163405589843710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a451819cc9c887849ad8338f746b67a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: 
+  _name: 
+  _health: 0
+  _currentHealth: 0
+  _movementSpeed: 0
+  _rotationSpeed: 0
+  _slopeSpeed: 0
+  _maxSuppliesCount: 0
+  _currentSuppliesCount: 0
+  _maxSailorsCount: 0
+  _currentSailorsCount: 0
+  _marketPrice: 0
+  _captainUserId: 
+  _captain: {fileID: 0}
+  _playerEntities: []
+  rotatingRight: 0
+  rotatingLeft: 0
