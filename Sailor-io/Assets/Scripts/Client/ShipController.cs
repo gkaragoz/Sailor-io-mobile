@@ -5,13 +5,16 @@ using UnityEngine;
 [System.Serializable]
 public class ShipController : ShipEntity
 {
-    public GameObject boxCollidersParentObj;
-
 	public bool rotatingRight, rotatingLeft;
 
 	private float _rotationY, _rotationZ;
+    private Transform _boxCollidersParent;
 
-	void FixedUpdate()
+    private void Awake() {
+        _boxCollidersParent = transform.root.Find("Colliders");
+    }
+
+    void FixedUpdate()
 	{
         IsSupplyInRange();
 
@@ -46,9 +49,8 @@ public class ShipController : ShipEntity
 				transform.rotation = Quaternion.Euler(0, _rotationY, _rotationZ);
 			}
 
-            boxCollidersParentObj.transform.position = transform.position;
-            Debug.Log(transform.rotation.eulerAngles.y);
-            boxCollidersParentObj.transform.localRotation = Quaternion.Euler(new Vector3(boxCollidersParentObj.transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, boxCollidersParentObj.transform.rotation.eulerAngles.z));
+            _boxCollidersParent.position = transform.position;
+            _boxCollidersParent.localRotation = Quaternion.Euler(new Vector3(_boxCollidersParent.rotation.eulerAngles.x, transform.eulerAngles.y, _boxCollidersParent.rotation.eulerAngles.z));
         }
     }
 
