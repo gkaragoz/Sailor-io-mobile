@@ -13,6 +13,7 @@ namespace Assets.Scripts.Network.Models
 		public float pos_x;
 		public float pos_z;
 		public float pos_y;
+		public float viewAngle;
 		public string Id;
 		public string assetName;
 		public string captainUserId;
