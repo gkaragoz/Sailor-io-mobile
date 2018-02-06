@@ -199,7 +199,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 961346d7e16a445ff93777573e78efd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: wss://sailor-gameserver.herokuapp.com//socket.io/?EIO=4&transport=websocket
+  runInLocalhost: 1
+  localhostURL: ws://localhost:9980//socket.io/?EIO=4&transport=websocket
+  serverURL: wss://sailor-gameserver.herokuapp.com//socket.io/?EIO=4&transport=websocket
   autoConnect: 1
   reconnectDelay: 5
   ackExpirationTime: 1800

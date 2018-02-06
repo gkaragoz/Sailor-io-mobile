@@ -40,10 +40,12 @@ namespace SocketIO
 {
 	public class SocketIOComponent : MonoBehaviour
 	{
-		#region Public Properties
+        #region Public Properties
 
-		public string url = "ws://127.0.0.1:4567/socket.io/?EIO=4&transport=websocket";
-		public bool autoConnect = true;
+        public bool runInLocalhost = false;
+		public string localhostURL = "ws://localhost:9980//socket.io/?EIO=4&transport=websocket";
+        public string serverURL = "wss://sailor-gameserver.herokuapp.com//socket.io/?EIO=4&transport=websocket";
+        public bool autoConnect = true;
 		public int reconnectDelay = 5;
 		public float ackExpirationTime = 1800f;
 		public float pingInterval = 25f;
@@ -99,7 +101,11 @@ namespace SocketIO
 			sid = null;
 			packetId = 0;
 
-			ws = new WebSocket(url);
+            if (runInLocalhost)
+                ws = new WebSocket(localhostURL);
+            else
+                ws = new WebSocket(serverURL);
+
 			ws.OnOpen += OnOpen;
 			ws.OnMessage += OnMessage;
 			ws.OnError += OnError;

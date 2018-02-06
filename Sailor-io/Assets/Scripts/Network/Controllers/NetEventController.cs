@@ -28,8 +28,12 @@ namespace Assets.Scripts.Network.Controllers
 		/// <param name="e"></param>
 		public static void OnConnectionSuccess(SocketIOEvent e)
 		{
-			Debug.Log("[CONNECTED] to: " + SocketManager.instance.io.url);
-			Debug.Log("[MY CLIENT ID] > " + SocketManager.instance.io.sid);
+            if (SocketManager.instance.io.runInLocalhost)
+			    Debug.Log("[CONNECTED] to: " + SocketManager.instance.io.localhostURL);
+            else
+                Debug.Log("[CONNECTED] to: " + SocketManager.instance.io.serverURL);
+
+            Debug.Log("[MY CLIENT ID] > " + SocketManager.instance.io.sid);
 			SocketManager.instance.io.Emit(WorldEvent.getWorldInfo.ToString());
 		}
 		/// <summary>
