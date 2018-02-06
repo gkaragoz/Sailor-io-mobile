@@ -96,7 +96,9 @@ public class UltimateOrbitCamera : MonoBehaviour
         this.y = this.initialAngleY;
         this._transform.Rotate(new Vector3(0f, this.initialAngleX, 0f), Space.World);
         this._transform.Rotate(new Vector3(this.initialAngleY, 0f, 0f), Space.Self);
-        this.position = ((Vector3) (this._transform.rotation * new Vector3(0f, 0f, -this.distance))) + this.target.position;
+
+        if (target != null)
+            this.position = ((Vector3) (this._transform.rotation * new Vector3(0f, 0f, -this.distance))) + this.target.position;
     }
 
     private void Update()

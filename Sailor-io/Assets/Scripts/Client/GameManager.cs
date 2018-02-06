@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance;
 
     public bool offlineMode = false;
+    public GameObject offlineShipPrefab;
 
     private SocketManager socketManager;
     private EInterpManager einterpManager;
@@ -31,6 +32,8 @@ public class GameManager : MonoBehaviour {
             socketManager.enabled = false;
             einterpManager.enabled = false;
             socketIOComponent.enabled = false;
+
+            Instantiate(offlineShipPrefab);
         } else {
             socketManager.enabled = true;
             einterpManager.enabled = true;
