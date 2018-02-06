@@ -80,7 +80,7 @@ public class ShipController : ShipEntity
                 //WorldManager.instance.supplyEntities.Remove(supply);
 	            if (supply != null)
 	            {
-		            Destroy(supply.gameObject);
+		            supply.gameObject.SetActive(false);
 		            return true;
 	            }
 
