@@ -22,6 +22,7 @@ public class ShipEntity : MonoBehaviour {
     public int _marketPrice;                    //Ship's price on market that players can buy.
     public string _captainUserId;               //Captains User Id
     public float _supplyCollectorRange;         //Ability of ship's distance between supply and itself to collect supplies.
+	public bool isMe;							//True if ship's captain id is same id for user
 
     public PlayerEntity _captain;               //The captain of the ship.
 

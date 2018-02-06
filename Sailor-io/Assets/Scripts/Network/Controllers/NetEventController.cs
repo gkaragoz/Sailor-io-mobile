@@ -12,6 +12,7 @@ namespace Assets.Scripts.Network.Controllers
 {
 	public static class NetEventController
 	{
+
 		/// <summary>
 		/// Register All SocketIO Events
 		/// </summary>
@@ -74,7 +75,7 @@ namespace Assets.Scripts.Network.Controllers
 			SocketManager.timeBetweenTick = (float)updateModel.updatePassTime / 1000;
 			SocketManager.latency = (int)latency;
 			SocketManager.tickRate = updateModel.svTickRate;
-
+			//Debug.Log("Time between tick: "+ SocketManager.timeBetweenTick);
             //HandleSupplies
 			#region SupplyCrateStatus
 			foreach (var supply in updateModel.supplyCrates)

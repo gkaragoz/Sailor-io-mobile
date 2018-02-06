@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.Network;
 using Assets.Scripts.Network.Models;
 using UnityEngine;
 
@@ -48,9 +49,17 @@ namespace Assets.Scripts.Client
 			entity.MovementSpeed = shipFromServer.movementSpeed;
 			entity.SlopeSpeed = shipFromServer.slopeSpeed;
 			entity.RotationSpeed = shipFromServer.rotationSpeed;
-
 			entity.Health = shipFromServer.maxHealth;
 			entity.CurrentHealth = shipFromServer.currentHealth;
+
+			if (SocketManager.instance.io.sid == entity.CaptainUserId)
+			{
+				entity.isMe = true;
+			}
+			else
+			{
+				entity.isMe = false;
+			}
 
 			return entity;
 		}
