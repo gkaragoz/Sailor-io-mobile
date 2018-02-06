@@ -75,6 +75,12 @@ namespace Assets.Scripts.Network.Controllers
 			#region SupplyCrateStatus
 			foreach (var supply in updateModel.supplyCrates)
 			{
+				if (supply.isDeath)
+				{
+					var deadSupply = WorldManager.instance.supplyEntities.Where(x => x.ID == supply.supplyId).SingleOrDefault();
+					WorldManager.instance.supplyEntities.Remove(deadSupply);
+					continue;
+				}
                 Vector3 position = new Vector3(supply.pos_x, supply.pos_y, supply.pos_z);
                 WorldManager.instance.InstantiateSupply(supply.supplyId, supply.assetName, position);
 			}

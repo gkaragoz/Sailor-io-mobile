@@ -14,5 +14,6 @@ namespace Assets.Scripts.Network.ApiModels
 		public string supplyId;
 		public int supplyIncome;
 		public string assetName;
+		public bool isDeath;
 	}
 }

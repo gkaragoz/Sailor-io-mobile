@@ -71,5 +71,20 @@ namespace Assets.Scripts.Network.Controllers
 			SocketManager.instance.io.Emit(PlayerEvent.playerMove.ToString(), userData);
 
 		}
+
+		/// <summary>
+		/// wasd Input function 
+		/// </summary>
+		/// <param name="e"></param>
+		public static void SendShipSupplyFeedInput(string shipId, string supplyId)
+		{
+			JSONObject userData = new JSONObject();
+
+			userData.AddField("shipId", shipId);
+			userData.AddField("supplyId", supplyId);
+
+			SocketManager.instance.io.Emit(SupplyEvent.feedShip.ToString(), userData);
+
+		}
 	}
 }

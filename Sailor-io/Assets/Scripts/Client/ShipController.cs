@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Network.Controllers;
 using UnityEngine;
 
 [System.Serializable]
@@ -69,20 +70,21 @@ public class ShipController : ShipEntity
                 //When server approved that request somewhere in listener function, 
                 //use that method to destroy this supply from client's scene.
                 //Probably this method will be in supplyEntities list in WorldManager for every client.
-
+	            NetInputController.SendShipSupplyFeedInput(this.Id.ToString(), supply.ID);
                 //OnSupplyCollected();
                 //Give some golds to players in ship.
-                foreach (PlayerEntity playerEntity in PlayerEntities) {
-                    playerEntity.Gold += supply.Income;
-                }
 
                 //Now destroy it. 
                 //DONT FORGET TO DO THIS FOR EVERY PLAYER'S WORLDMANAGER.
-                WorldManager.instance.supplyEntities.Remove(supply);
-                Destroy(supply.gameObject);
+	            supply.Status = Enums.SupplyStatus.Pending;
+                //WorldManager.instance.supplyEntities.Remove(supply);
+	            if (supply != null)
+	            {
+		            Destroy(supply.gameObject);
+		            return true;
+	            }
 
-                return true;
-            }
+			}
         }
         return false;
     }

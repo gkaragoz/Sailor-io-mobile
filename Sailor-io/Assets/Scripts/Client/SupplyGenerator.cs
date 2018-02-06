@@ -26,6 +26,7 @@ public class SupplyGenerator : MonoBehaviour {
 
         SupplyEntity entity = Instantiate(prefab.gameObject, position, Quaternion.identity, parentObject).GetComponent<SupplyEntity>();
         entity.ID = id;
+		entity.Status = Enums.SupplyStatus.Idle;
         return entity;
     }
 

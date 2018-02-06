@@ -15,6 +15,11 @@ namespace Assets.Scripts.Network.Utils
 	{
 		newShip
 	}
+
+	public enum SupplyEvent
+	{
+		feedShip
+	}
 	public enum PlayerEvent
 	{
 		playerMouseRotation,

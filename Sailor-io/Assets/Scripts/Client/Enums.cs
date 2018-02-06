@@ -5,4 +5,10 @@
         Captain
     }
 
+	public enum SupplyStatus {
+		Idle,
+		Pending,
+		Death
+	}
+
 }
