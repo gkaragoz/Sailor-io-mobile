@@ -26,17 +26,20 @@
  */
 #endregion
 
+using SailorIO.Models;
+
 namespace SocketIO
 {
 	public class SocketIOEvent
 	{
 		public string name { get; set; }
+		public byte[] rawData { get; set; }
 
-		public JSONObject data { get; set; }
+		public UpdateModel data { get; set; }
 
-		public SocketIOEvent(string name) : this(name, null) { }
+		public SocketIOEvent(string name) : this(name, new UpdateModel()) { }
 		
-		public SocketIOEvent(string name, JSONObject data)
+		public SocketIOEvent(string name, UpdateModel data)
 		{
 			this.name = name;
 			this.data = data;

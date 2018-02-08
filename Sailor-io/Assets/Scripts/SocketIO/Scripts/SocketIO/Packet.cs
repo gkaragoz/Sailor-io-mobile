@@ -36,6 +36,7 @@ namespace SocketIO
 		public int attachments;
 		public string nsp;
 		public int id;
+		public byte[] rawData;
 		public JSONObject json;
 
 		public Packet() : this(EnginePacketType.UNKNOWN, SocketPacketType.UNKNOWN, -1, "/", -1, null) { }

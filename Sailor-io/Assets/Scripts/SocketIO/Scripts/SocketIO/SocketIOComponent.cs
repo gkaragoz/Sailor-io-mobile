@@ -32,6 +32,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using FlatBuffers;
+using SailorIO.ClientInputModel;
 using UnityEngine;
 using WebSocketSharp;
 using WebSocketSharp.Net;
@@ -40,12 +42,13 @@ namespace SocketIO
 {
 	public class SocketIOComponent : MonoBehaviour
 	{
-        #region Public Properties
+		#region Public Properties
 
-        public bool runInLocalhost = false;
-		public string localhostURL = "ws://localhost:9980//socket.io/?EIO=4&transport=websocket";
-        public string serverURL = "wss://sailor-gameserver.herokuapp.com//socket.io/?EIO=4&transport=websocket";
-        public bool autoConnect = true;
+		public bool runInLocalhost = false;
+		public bool isBinaryData = false;
+		public string localhostURL = "ws://localhost:9980";
+		public string serverURL = "wss://sailor-gameserver.herokuapp.com//socket.io/?EIO=4&transport=websocket";
+		public bool autoConnect = false;
 		public int reconnectDelay = 5;
 		public float ackExpirationTime = 1800f;
 		public float pingInterval = 25f;
@@ -85,9 +88,9 @@ namespace SocketIO
 
 		#endregion
 
-		#if SOCKET_IO_DEBUG
+#if SOCKET_IO_DEBUG
 		public Action<string> debugMethod;
-		#endif
+#endif
 
 		#region Unity interface
 
@@ -101,10 +104,10 @@ namespace SocketIO
 			sid = null;
 			packetId = 0;
 
-            if (runInLocalhost)
-                ws = new WebSocket(localhostURL);
-            else
-                ws = new WebSocket(serverURL);
+			if (runInLocalhost)
+				ws = new WebSocket(localhostURL);
+			else
+				ws = new WebSocket(serverURL);
 
 			ws.OnOpen += OnOpen;
 			ws.OnMessage += OnMessage;
@@ -120,9 +123,9 @@ namespace SocketIO
 
 			connected = false;
 
-			#if SOCKET_IO_DEBUG
+#if SOCKET_IO_DEBUG
 			if(debugMethod == null) { debugMethod = Debug.Log; };
-			#endif
+#endif
 		}
 
 		public void Start()
@@ -132,37 +135,45 @@ namespace SocketIO
 
 		public void Update()
 		{
-			lock(eventQueueLock){ 
-				while(eventQueue.Count > 0){
+			lock (eventQueueLock)
+			{
+				while (eventQueue.Count > 0)
+				{
 					EmitEvent(eventQueue.Dequeue());
 				}
 			}
 
-			lock(ackQueueLock){
-				while(ackQueue.Count > 0){
+			lock (ackQueueLock)
+			{
+				while (ackQueue.Count > 0)
+				{
 					InvokeAck(ackQueue.Dequeue());
 				}
 			}
 
-			if(wsConnected != ws.IsConnected){
+			if (wsConnected != ws.IsConnected)
+			{
 				wsConnected = ws.IsConnected;
-				if(wsConnected){
+				if (wsConnected)
+				{
 					EmitEvent("connect");
-				} else {
+				}
+				else
+				{
 					EmitEvent("disconnect");
 				}
 			}
 
 			// GC expired acks
-			if(ackList.Count == 0) { return; }
-			if(DateTime.Now.Subtract(ackList[0].time).TotalSeconds < ackExpirationTime){ return; }
+			if (ackList.Count == 0) { return; }
+			if (DateTime.Now.Subtract(ackList[0].time).TotalSeconds < ackExpirationTime) { return; }
 			ackList.RemoveAt(0);
 		}
 
 		public void OnDestroy()
 		{
-			if (socketThread != null) 	{ socketThread.Abort(); }
-			if (pingThread != null) 	{ pingThread.Abort(); }
+			if (socketThread != null) { socketThread.Abort(); }
+			if (pingThread != null) { pingThread.Abort(); }
 		}
 
 		public void OnApplicationQuit()
@@ -173,7 +184,7 @@ namespace SocketIO
 		#endregion
 
 		#region Public Interface
-		
+
 		public void Connect()
 		{
 			connected = true;
@@ -193,7 +204,8 @@ namespace SocketIO
 
 		public void On(string ev, Action<SocketIOEvent> callback)
 		{
-			if (!handlers.ContainsKey(ev)) {
+			if (!handlers.ContainsKey(ev))
+			{
 				handlers[ev] = new List<Action<SocketIOEvent>>();
 			}
 			handlers[ev].Add(callback);
@@ -201,28 +213,44 @@ namespace SocketIO
 
 		public void Off(string ev, Action<SocketIOEvent> callback)
 		{
-			if (!handlers.ContainsKey(ev)) {
-				#if SOCKET_IO_DEBUG
+			if (!handlers.ContainsKey(ev))
+			{
+#if SOCKET_IO_DEBUG
 				debugMethod.Invoke("[SocketIO] No callbacks registered for event: " + ev);
-				#endif
+#endif
 				return;
 			}
 
-			List<Action<SocketIOEvent>> l = handlers [ev];
-			if (!l.Contains(callback)) {
-				#if SOCKET_IO_DEBUG
+			List<Action<SocketIOEvent>> l = handlers[ev];
+			if (!l.Contains(callback))
+			{
+#if SOCKET_IO_DEBUG
 				debugMethod.Invoke("[SocketIO] Couldn't remove callback action for event: " + ev);
-				#endif
+#endif
 				return;
 			}
 
 			l.Remove(callback);
-			if (l.Count == 0) {
+			if (l.Count == 0)
+			{
 				handlers.Remove(ev);
 			}
 		}
 
 		public void Emit(string ev)
+		{
+			EmitMessage(-1, string.Format("[\"{0}\"]", ev));
+		}
+		public void Emit(ClientEventEnum ev)
+		{
+			FlatBufferBuilder fbb = new FlatBufferBuilder(1);
+			ClientInput.StartClientInput(fbb);
+			ClientInput.AddClientEventType(fbb, ev);
+			var clientInput = ClientInput.EndClientInput(fbb);
+			ClientInput.FinishClientInputBuffer(fbb, clientInput);
+			EmitMessage(fbb);
+		}
+		public void Emit(FlatBufferBuilder ev)
 		{
 			EmitMessage(-1, string.Format("[\"{0}\"]", ev));
 		}
@@ -251,10 +279,14 @@ namespace SocketIO
 		private void RunSocketThread(object obj)
 		{
 			WebSocket webSocket = (WebSocket)obj;
-			while(connected){
-				if(webSocket.IsConnected){
+			while (connected)
+			{
+				if (webSocket.IsConnected)
+				{
 					Thread.Sleep(reconnectDelay);
-				} else {
+				}
+				else
+				{
 					webSocket.Connect();
 				}
 			}
@@ -270,22 +302,27 @@ namespace SocketIO
 
 			DateTime pingStart;
 
-			while(connected)
+			while (connected)
 			{
-				if(!wsConnected){
+				if (!wsConnected)
+				{
 					Thread.Sleep(reconnectDelay);
-				} else {
+				}
+				else
+				{
 					thPinging = true;
-					thPong =  false;
-					
+					thPong = false;
+
 					EmitPacket(new Packet(EnginePacketType.PING));
 					pingStart = DateTime.Now;
-					
-					while(webSocket.IsConnected && thPinging && (DateTime.Now.Subtract(pingStart).TotalSeconds < timeoutMilis)){
+
+					while (webSocket.IsConnected && thPinging && (DateTime.Now.Subtract(pingStart).TotalSeconds < timeoutMilis))
+					{
 						Thread.Sleep(200);
 					}
-					
-					if(!thPong){
+
+					if (!thPong)
+					{
 						webSocket.Close();
 					}
 
@@ -298,6 +335,10 @@ namespace SocketIO
 		{
 			EmitPacket(new Packet(EnginePacketType.MESSAGE, SocketPacketType.EVENT, 0, "/", id, new JSONObject(raw)));
 		}
+		private void EmitMessage(FlatBufferBuilder fbb)
+		{
+			EmitBytePacket(fbb);
+		}
 
 		private void EmitClose()
 		{
@@ -307,16 +348,37 @@ namespace SocketIO
 
 		private void EmitPacket(Packet packet)
 		{
-			#if SOCKET_IO_DEBUG
+#if SOCKET_IO_DEBUG
 			debugMethod.Invoke("[SocketIO] " + packet);
-			#endif
-			
-			try {
+#endif
+
+			try
+			{
 				ws.Send(encoder.Encode(packet));
-			} catch(SocketIOException ex) {
-				#if SOCKET_IO_DEBUG
+			}
+			catch (SocketIOException ex)
+			{
+#if SOCKET_IO_DEBUG
 				debugMethod.Invoke(ex.ToString());
-				#endif
+#endif
+			}
+		}
+
+		private void EmitBytePacket(FlatBufferBuilder fbb)
+		{
+#if SOCKET_IO_DEBUG
+			debugMethod.Invoke("[SocketIO] " + packet);
+#endif
+
+			try
+			{
+				ws.Send(fbb.DataBuffer.Data);
+			}
+			catch (SocketIOException ex)
+			{
+#if SOCKET_IO_DEBUG
+				debugMethod.Invoke(ex.ToString());
+#endif
 			}
 		}
 
@@ -327,25 +389,21 @@ namespace SocketIO
 
 		private void OnMessage(object sender, MessageEventArgs e)
 		{
-			#if SOCKET_IO_DEBUG
+#if SOCKET_IO_DEBUG
 			debugMethod.Invoke("[SocketIO] Raw message: " + e.Data);
-			#endif
+#endif
 			Packet packet = decoder.Decode(e);
+			packet.rawData = e.RawData;
 
-			switch (packet.enginePacketType) {
-				case EnginePacketType.OPEN: 	HandleOpen(packet);		break;
-				case EnginePacketType.CLOSE: 	EmitEvent("close");		break;
-				case EnginePacketType.PING:		HandlePing();	   		break;
-				case EnginePacketType.PONG:		HandlePong();	   		break;
-				case EnginePacketType.MESSAGE: 	HandleMessage(packet);	break;
-			}
+			HandleMessage(packet);
+
 		}
 
 		private void HandleOpen(Packet packet)
 		{
-			#if SOCKET_IO_DEBUG
+#if SOCKET_IO_DEBUG
 			debugMethod.Invoke("[SocketIO] Socket.IO sid: " + packet.json["sid"].str);
-			#endif
+#endif
 			sid = packet.json["sid"].str;
 			EmitEvent("open");
 		}
@@ -360,26 +418,17 @@ namespace SocketIO
 			thPong = true;
 			thPinging = false;
 		}
-		
+
 		private void HandleMessage(Packet packet)
 		{
-			if(packet.json == null) { return; }
+			if (packet.rawData == null) { return; }
 
-			if(packet.socketPacketType == SocketPacketType.ACK){
-				for(int i = 0; i < ackList.Count; i++){
-					if(ackList[i].packetId != packet.id){ continue; }
-					lock(ackQueueLock){ ackQueue.Enqueue(packet); }
-					return;
-				}
+			if (packet.socketPacketType == SocketPacketType.BINARY_EVENT)
+			{
 
-				#if SOCKET_IO_DEBUG
-				debugMethod.Invoke("[SocketIO] Ack received for invalid Action: " + packet.id);
-				#endif
-			}
+				SocketIOEvent e = parser.Parse(packet);
 
-			if (packet.socketPacketType == SocketPacketType.EVENT) {
-				SocketIOEvent e = parser.Parse(packet.json);
-				lock(eventQueueLock){ eventQueue.Enqueue(e); }
+				lock (eventQueueLock) { eventQueue.Enqueue(e); }
 			}
 		}
 
@@ -401,13 +450,17 @@ namespace SocketIO
 		private void EmitEvent(SocketIOEvent ev)
 		{
 			if (!handlers.ContainsKey(ev.name)) { return; }
-			foreach (Action<SocketIOEvent> handler in this.handlers[ev.name]) {
-				try{
+			foreach (Action<SocketIOEvent> handler in this.handlers[ev.name])
+			{
+				try
+				{
 					handler(ev);
-				} catch(Exception ex){
-					#if SOCKET_IO_DEBUG
+				}
+				catch (Exception ex)
+				{
+#if SOCKET_IO_DEBUG
 					debugMethod.Invoke(ex.ToString());
-					#endif
+#endif
 				}
 			}
 		}
@@ -415,8 +468,9 @@ namespace SocketIO
 		private void InvokeAck(Packet packet)
 		{
 			Ack ack;
-			for(int i = 0; i < ackList.Count; i++){
-				if(ackList[i].packetId != packet.id){ continue; }
+			for (int i = 0; i < ackList.Count; i++)
+			{
+				if (ackList[i].packetId != packet.id) { continue; }
 				ack = ackList[i];
 				ackList.RemoveAt(i);
 				ack.Invoke(packet.json);

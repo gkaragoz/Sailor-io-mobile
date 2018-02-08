@@ -80,11 +80,11 @@ public class TestSocketIO : MonoBehaviour
 	{
 		Debug.Log("[SocketIO] Boop received: " + e.name + " " + e.data);
 
-		if (e.data == null) { return; }
+		if (e.data.Equals(null)) { return; }
 
 		Debug.Log(
 			"#####################################################" +
-			"THIS: " + e.data.GetField("this").str +
+			"THIS: " + e.data +
 			"#####################################################"
 		);
 	}

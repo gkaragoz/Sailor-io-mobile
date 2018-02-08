@@ -6,6 +6,7 @@ using Assets.Scripts.Client;
 using UnityEngine;
 using Assets.Scripts.Network.ApiModels;
 using Assets.Scripts.Network.Models;
+using SailorIO.Models;
 
 public class WorldManager : MonoBehaviour
 {
@@ -36,12 +37,22 @@ public class WorldManager : MonoBehaviour
 		shipGenerator = GetComponent<ShipGenerator>();
 	}
 
-	public void BuildWorld(WorldInfoModel worldInfoModel)
+	public void BuildWorld(UpdateModel data)
 	{
-		Vector3 centerPos = new Vector3(worldInfoModel.offSetX, 0f, worldInfoModel.offSetZ);
+		Vector3 centerPos = new Vector3(data.WorldInfo.Value.OffSetX, 0f, data.WorldInfo.Value.OffSetZ);
 		mapObject = Instantiate(mapObject, centerPos, Quaternion.identity);
-		mapObject.transform.localScale = new Vector3(worldInfoModel.length * 0.1f, 1f, worldInfoModel.width * 0.1f);
+		mapObject.transform.localScale = new Vector3(data.WorldInfo.Value.Length * 0.1f, 1f, data.WorldInfo.Value.Width * 0.1f);
 		mapObject.name = "Sea";
+	}
+
+	public void BuildSupplies(UpdateModel data)
+	{
+
+		//TODO: SPAWN ALL SUPPLIES AT ONCE
+		for (int i = 0; i < data.SupplyCratesLength; i++)
+		{
+			Debug.Log(data.SupplyCrates(i).Value.Pos.ToString());
+		}
 	}
 
 	public void InstantiateSupply(string supplyId, string assetName, Vector3 position)

@@ -5,8 +5,12 @@ using System.Text;
 using Assets.Scripts.Network.ApiModels;
 using Assets.Scripts.Network.Models;
 using Assets.Scripts.Network.Utils;
+using FlatBuffers;
+using SailorIO.ClientInputModel;
+using SailorIO.Models;
 using SocketIO;
 using UnityEngine;
+using EventTypes = SailorIO.Models.EventTypes;
 
 namespace Assets.Scripts.Network.Controllers
 {
@@ -19,7 +23,7 @@ namespace Assets.Scripts.Network.Controllers
 		public static void RegisterEvents()
 		{
 			SocketManager.instance.io.On(BaseEvent.connect.ToString(), OnConnectionSuccess);
-			SocketManager.instance.io.On(WorldEvent.getWorldInfo.ToString(), OnWorldInfoDownloaded);
+			SocketManager.instance.io.On(EventTypes.WorldInfoUpdate.ToString(), OnWorldInfoDownloaded);
 			SocketManager.instance.io.On(PlayerEvent.playerDisconnected.ToString(), OnPlayerDisconnected);
 		}
 
@@ -34,8 +38,7 @@ namespace Assets.Scripts.Network.Controllers
             else
                 Debug.Log("[CONNECTED] to: " + SocketManager.instance.io.serverURL);
 
-            Debug.Log("[MY CLIENT ID] > " + SocketManager.instance.io.sid);
-			SocketManager.instance.io.Emit(WorldEvent.getWorldInfo.ToString());
+			SocketManager.instance.io.Emit(ClientEventEnum.GET_WORLD_INFO);
 		}
 		/// <summary>
 		/// ConnectionSuccess function is callback when fired after connected successfully to socket
@@ -64,39 +67,40 @@ namespace Assets.Scripts.Network.Controllers
 		/// <param name="e"></param>
 		public static void OnWorldUpdate(SocketIOEvent e)
 		{
-			var updateModel = WorldUpdateModel.CreateFromJSON(e.data.ToString());
+			ByteBuffer bb = new ByteBuffer(e.rawData);
+			var updateModel = UpdateModel.GetRootAsUpdateModel(bb);
+			
 			var now = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc));
 			//ALL PLAYERS CURRENT STATE UPDATES
-			var updateTime = double.Parse(updateModel.updateTime);
+			var updateTime = updateModel.UpdateTime;
 			var currentClientTime = now.TotalSeconds;
 			var latency = currentClientTime - updateTime;
 			DebugManager.instance.latency.text = "Latency: " + (float)latency*100 + " ms";
-			DebugManager.instance.totalUserCount.text = "Total Ship Count: " + updateModel.shipModels.Length;
-			SocketManager.timeBetweenTick = (float)updateModel.updatePassTime / 1000;
+			DebugManager.instance.totalUserCount.text = "Total Ship Count: " + updateModel.ShipModelsLength;
+			SocketManager.timeBetweenTick = (float)updateModel.UpdatePassTime / 1000;
 			SocketManager.latency = (int)latency;
-			SocketManager.tickRate = updateModel.svTickRate;
 			//Debug.Log("Time between tick: "+ SocketManager.timeBetweenTick);
             //HandleSupplies
-			#region SupplyCrateStatus
-			foreach (var supply in updateModel.supplyCrates)
-			{
-				if (supply.isDeath)
-				{
-					var deadSupply = WorldManager.instance.supplyEntities.Where(x => x.ID == supply.supplyId).SingleOrDefault();
-					WorldManager.instance.supplyEntities.Remove(deadSupply);
-					continue;
-				}
-                Vector3 position = new Vector3(supply.pos_x, supply.pos_y, supply.pos_z);
-                WorldManager.instance.InstantiateSupply(supply.supplyId, supply.assetName, position);
-			}
-			#endregion
+			//#region SupplyCrateStatus
+			//foreach (var supply in updateModel.SupplyCrates)
+			//{
+			//	if (supply.isDeath)
+			//	{
+			//		var deadSupply = WorldManager.instance.supplyEntities.Where(x => x.ID == supply.supplyId).SingleOrDefault();
+			//		WorldManager.instance.supplyEntities.Remove(deadSupply);
+			//		continue;
+			//	}
+   //             Vector3 position = new Vector3(supply.pos_x, supply.pos_y, supply.pos_z);
+   //             WorldManager.instance.InstantiateSupply(supply.supplyId, supply.assetName, position);
+			//}
+			//#endregion
 
-			#region Ships
-			foreach (var shipFromServer in updateModel.shipModels)
-			{
-				WorldManager.instance.UpdateShips(shipFromServer);				
-			}
-			#endregion
+			//#region Ships
+			//foreach (var shipFromServer in updateModel.shipModels)
+			//{
+			//	WorldManager.instance.UpdateShips(shipFromServer);				
+			//}
+			//#endregion
 		}
 		
         /// <summary>
@@ -106,12 +110,11 @@ namespace Assets.Scripts.Network.Controllers
 		public static void OnWorldInfoDownloaded(SocketIOEvent e)
 		{
 			Debug.Log("[WORLD INFO DOWNLOADED]");
-			var worldInfoModel = WorldInfoModel.CreateFromJSON(e.data.ToString());
 
-            WorldManager.instance.BuildWorld(worldInfoModel);
-
+            WorldManager.instance.BuildWorld(e.data);
+            WorldManager.instance.BuildSupplies(e.data);
 			SocketManager.instance.io.Emit(PlayerEvent.playerNew.ToString());
-			SocketManager.instance.io.On(WorldEvent.worldUpdate.ToString(), OnWorldUpdate);
+			SocketManager.instance.io.On(EventTypes.UpdateModel.ToString(), OnWorldUpdate);
 
 			JSONObject userData = new JSONObject();
 			userData.AddField("shipType", Ships.Raft1.ToString());
