@@ -8,68 +8,60 @@ namespace SailorIO.ClientInputModel
 using global::System;
 using global::FlatBuffers;
 
-public enum ClientEventEnum : sbyte
-{
- GET_WORLD_INFO = 0,
-};
-
-public enum SupplyTypes : sbyte
-{
- CRATE1 = 0,
- CRATE2 = 1,
- WOODENBARREL1 = 2,
- WOODENBARREL2 = 3,
-};
-
 public enum ClientEventTypes : byte
 {
  NONE = 0,
  GetWorldInfo = 1,
- WorldInfoTable = 2,
+ NewPlayer = 2,
+ BuyNewShip = 3,
+ SailShip = 4,
 };
 
-public struct Vec3 : IFlatbufferObject
+public enum ShipTypes : sbyte
 {
-  private Struct __p;
-  public ByteBuffer ByteBuffer { get { return __p.bb; } }
-  public void __init(int _i, ByteBuffer _bb) { __p.bb_pos = _i; __p.bb = _bb; }
-  public Vec3 __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
-
-  public float X { get { return __p.bb.GetFloat(__p.bb_pos + 0); } }
-  public float Y { get { return __p.bb.GetFloat(__p.bb_pos + 4); } }
-  public float Z { get { return __p.bb.GetFloat(__p.bb_pos + 8); } }
-
-  public static Offset<Vec3> CreateVec3(FlatBufferBuilder builder, float X, float Y, float Z) {
-    builder.Prep(4, 12);
-    builder.PutFloat(Z);
-    builder.PutFloat(Y);
-    builder.PutFloat(X);
-    return new Offset<Vec3>(builder.Offset);
-  }
+ RAFT1 = 0,
 };
 
-public struct Supply : IFlatbufferObject
+public struct BuyNewShip : IFlatbufferObject
 {
   private Table __p;
   public ByteBuffer ByteBuffer { get { return __p.bb; } }
-  public static Supply GetRootAsSupply(ByteBuffer _bb) { return GetRootAsSupply(_bb, new Supply()); }
-  public static Supply GetRootAsSupply(ByteBuffer _bb, Supply obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
+  public static BuyNewShip GetRootAsBuyNewShip(ByteBuffer _bb) { return GetRootAsBuyNewShip(_bb, new BuyNewShip()); }
+  public static BuyNewShip GetRootAsBuyNewShip(ByteBuffer _bb, BuyNewShip obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
   public void __init(int _i, ByteBuffer _bb) { __p.bb_pos = _i; __p.bb = _bb; }
-  public Supply __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
+  public BuyNewShip __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public Vec3? Pos { get { int o = __p.__offset(4); return o != 0 ? (Vec3?)(new Vec3()).__assign(o + __p.bb_pos, __p.bb) : null; } }
-  public SupplyTypes SupplyId { get { int o = __p.__offset(6); return o != 0 ? (SupplyTypes)__p.bb.GetSbyte(o + __p.bb_pos) : SupplyTypes.CRATE1; } }
-  public bool IsDeath { get { int o = __p.__offset(8); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
-  public bool IsNew { get { int o = __p.__offset(10); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
+  public ShipTypes Ship { get { int o = __p.__offset(4); return o != 0 ? (ShipTypes)__p.bb.GetSbyte(o + __p.bb_pos) : ShipTypes.RAFT1; } }
 
-  public static void StartSupply(FlatBufferBuilder builder) { builder.StartObject(4); }
-  public static void AddPos(FlatBufferBuilder builder, Offset<Vec3> posOffset) { builder.AddStruct(0, posOffset.Value, 0); }
-  public static void AddSupplyId(FlatBufferBuilder builder, SupplyTypes supplyId) { builder.AddSbyte(1, (sbyte)supplyId, 0); }
-  public static void AddIsDeath(FlatBufferBuilder builder, bool isDeath) { builder.AddBool(2, isDeath, false); }
-  public static void AddIsNew(FlatBufferBuilder builder, bool isNew) { builder.AddBool(3, isNew, false); }
-  public static Offset<Supply> EndSupply(FlatBufferBuilder builder) {
+  public static Offset<BuyNewShip> CreateBuyNewShip(FlatBufferBuilder builder,
+      ShipTypes ship = ShipTypes.RAFT1) {
+    builder.StartObject(1);
+    BuyNewShip.AddShip(builder, ship);
+    return BuyNewShip.EndBuyNewShip(builder);
+  }
+
+  public static void StartBuyNewShip(FlatBufferBuilder builder) { builder.StartObject(1); }
+  public static void AddShip(FlatBufferBuilder builder, ShipTypes ship) { builder.AddSbyte(0, (sbyte)ship, 0); }
+  public static Offset<BuyNewShip> EndBuyNewShip(FlatBufferBuilder builder) {
     int o = builder.EndObject();
-    return new Offset<Supply>(o);
+    return new Offset<BuyNewShip>(o);
+  }
+};
+
+public struct SailShip : IFlatbufferObject
+{
+  private Table __p;
+  public ByteBuffer ByteBuffer { get { return __p.bb; } }
+  public static SailShip GetRootAsSailShip(ByteBuffer _bb) { return GetRootAsSailShip(_bb, new SailShip()); }
+  public static SailShip GetRootAsSailShip(ByteBuffer _bb, SailShip obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
+  public void __init(int _i, ByteBuffer _bb) { __p.bb_pos = _i; __p.bb = _bb; }
+  public SailShip __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
+
+
+  public static void StartSailShip(FlatBufferBuilder builder) { builder.StartObject(0); }
+  public static Offset<SailShip> EndSailShip(FlatBufferBuilder builder) {
+    int o = builder.EndObject();
+    return new Offset<SailShip>(o);
   }
 };
 
@@ -90,56 +82,30 @@ public struct GetWorldInfo : IFlatbufferObject
   }
 };
 
-public struct WorldInfoTable : IFlatbufferObject
+public struct NewPlayer : IFlatbufferObject
 {
   private Table __p;
   public ByteBuffer ByteBuffer { get { return __p.bb; } }
-  public static WorldInfoTable GetRootAsWorldInfoTable(ByteBuffer _bb) { return GetRootAsWorldInfoTable(_bb, new WorldInfoTable()); }
-  public static WorldInfoTable GetRootAsWorldInfoTable(ByteBuffer _bb, WorldInfoTable obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
+  public static NewPlayer GetRootAsNewPlayer(ByteBuffer _bb) { return GetRootAsNewPlayer(_bb, new NewPlayer()); }
+  public static NewPlayer GetRootAsNewPlayer(ByteBuffer _bb, NewPlayer obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
   public void __init(int _i, ByteBuffer _bb) { __p.bb_pos = _i; __p.bb = _bb; }
-  public WorldInfoTable __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
+  public NewPlayer __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public int Height { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int Width { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int Length { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int OffSetX { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int OffSetZ { get { int o = __p.__offset(12); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int OffSetY { get { int o = __p.__offset(14); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public Supply? CurrentSupplies(int j) { int o = __p.__offset(16); return o != 0 ? (Supply?)(new Supply()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
-  public int CurrentSuppliesLength { get { int o = __p.__offset(16); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public string AccessToken { get { int o = __p.__offset(4); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public ArraySegment<byte>? GetAccessTokenBytes() { return __p.__vector_as_arraysegment(4); }
 
-  public static Offset<WorldInfoTable> CreateWorldInfoTable(FlatBufferBuilder builder,
-      int height = 0,
-      int width = 0,
-      int length = 0,
-      int offSetX = 0,
-      int offSetZ = 0,
-      int offSetY = 0,
-      VectorOffset currentSuppliesOffset = default(VectorOffset)) {
-    builder.StartObject(7);
-    WorldInfoTable.AddCurrentSupplies(builder, currentSuppliesOffset);
-    WorldInfoTable.AddOffSetY(builder, offSetY);
-    WorldInfoTable.AddOffSetZ(builder, offSetZ);
-    WorldInfoTable.AddOffSetX(builder, offSetX);
-    WorldInfoTable.AddLength(builder, length);
-    WorldInfoTable.AddWidth(builder, width);
-    WorldInfoTable.AddHeight(builder, height);
-    return WorldInfoTable.EndWorldInfoTable(builder);
+  public static Offset<NewPlayer> CreateNewPlayer(FlatBufferBuilder builder,
+      StringOffset accessTokenOffset = default(StringOffset)) {
+    builder.StartObject(1);
+    NewPlayer.AddAccessToken(builder, accessTokenOffset);
+    return NewPlayer.EndNewPlayer(builder);
   }
 
-  public static void StartWorldInfoTable(FlatBufferBuilder builder) { builder.StartObject(7); }
-  public static void AddHeight(FlatBufferBuilder builder, int height) { builder.AddInt(0, height, 0); }
-  public static void AddWidth(FlatBufferBuilder builder, int width) { builder.AddInt(1, width, 0); }
-  public static void AddLength(FlatBufferBuilder builder, int length) { builder.AddInt(2, length, 0); }
-  public static void AddOffSetX(FlatBufferBuilder builder, int offSetX) { builder.AddInt(3, offSetX, 0); }
-  public static void AddOffSetZ(FlatBufferBuilder builder, int offSetZ) { builder.AddInt(4, offSetZ, 0); }
-  public static void AddOffSetY(FlatBufferBuilder builder, int offSetY) { builder.AddInt(5, offSetY, 0); }
-  public static void AddCurrentSupplies(FlatBufferBuilder builder, VectorOffset currentSuppliesOffset) { builder.AddOffset(6, currentSuppliesOffset.Value, 0); }
-  public static VectorOffset CreateCurrentSuppliesVector(FlatBufferBuilder builder, Offset<Supply>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
-  public static void StartCurrentSuppliesVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
-  public static Offset<WorldInfoTable> EndWorldInfoTable(FlatBufferBuilder builder) {
+  public static void StartNewPlayer(FlatBufferBuilder builder) { builder.StartObject(1); }
+  public static void AddAccessToken(FlatBufferBuilder builder, StringOffset accessTokenOffset) { builder.AddOffset(0, accessTokenOffset.Value, 0); }
+  public static Offset<NewPlayer> EndNewPlayer(FlatBufferBuilder builder) {
     int o = builder.EndObject();
-    return new Offset<WorldInfoTable>(o);
+    return new Offset<NewPlayer>(o);
   }
 };
 
@@ -152,25 +118,21 @@ public struct ClientInput : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p.bb_pos = _i; __p.bb = _bb; }
   public ClientInput __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public ClientEventEnum ClientEventType { get { int o = __p.__offset(4); return o != 0 ? (ClientEventEnum)__p.bb.GetSbyte(o + __p.bb_pos) : ClientEventEnum.GET_WORLD_INFO; } }
-  public ClientEventTypes EventType { get { int o = __p.__offset(6); return o != 0 ? (ClientEventTypes)__p.bb.Get(o + __p.bb_pos) : ClientEventTypes.NONE; } }
-  public TTable? Event<TTable>() where TTable : struct, IFlatbufferObject { int o = __p.__offset(8); return o != 0 ? (TTable?)__p.__union<TTable>(o) : null; }
+  public ClientEventTypes EventType { get { int o = __p.__offset(4); return o != 0 ? (ClientEventTypes)__p.bb.Get(o + __p.bb_pos) : ClientEventTypes.NONE; } }
+  public TTable? Event<TTable>() where TTable : struct, IFlatbufferObject { int o = __p.__offset(6); return o != 0 ? (TTable?)__p.__union<TTable>(o) : null; }
 
   public static Offset<ClientInput> CreateClientInput(FlatBufferBuilder builder,
-      ClientEventEnum ClientEventType = ClientEventEnum.GET_WORLD_INFO,
       ClientEventTypes Event_type = ClientEventTypes.NONE,
       int EventOffset = 0) {
-    builder.StartObject(3);
+    builder.StartObject(2);
     ClientInput.AddEvent(builder, EventOffset);
     ClientInput.AddEventType(builder, Event_type);
-    ClientInput.AddClientEventType(builder, ClientEventType);
     return ClientInput.EndClientInput(builder);
   }
 
-  public static void StartClientInput(FlatBufferBuilder builder) { builder.StartObject(3); }
-  public static void AddClientEventType(FlatBufferBuilder builder, ClientEventEnum ClientEventType) { builder.AddSbyte(0, (sbyte)ClientEventType, 0); }
-  public static void AddEventType(FlatBufferBuilder builder, ClientEventTypes EventType) { builder.AddByte(1, (byte)EventType, 0); }
-  public static void AddEvent(FlatBufferBuilder builder, int EventOffset) { builder.AddOffset(2, EventOffset, 0); }
+  public static void StartClientInput(FlatBufferBuilder builder) { builder.StartObject(2); }
+  public static void AddEventType(FlatBufferBuilder builder, ClientEventTypes EventType) { builder.AddByte(0, (byte)EventType, 0); }
+  public static void AddEvent(FlatBufferBuilder builder, int EventOffset) { builder.AddOffset(1, EventOffset, 0); }
   public static Offset<ClientInput> EndClientInput(FlatBufferBuilder builder) {
     int o = builder.EndObject();
     return new Offset<ClientInput>(o);

@@ -48,10 +48,18 @@ public class WorldManager : MonoBehaviour
 	public void BuildSupplies(UpdateModel data)
 	{
 
-		//TODO: SPAWN ALL SUPPLIES AT ONCE
 		for (int i = 0; i < data.SupplyCratesLength; i++)
 		{
-			Debug.Log(data.SupplyCrates(i).Value.Pos.ToString());
+			var supply = data.SupplyCrates(i).Value;
+			var supplyPosition = new Vector3(
+				supply.Pos.Value.X,
+				supply.Pos.Value.Y,
+				supply.Pos.Value.Z);
+			var assetName = supply.AssetId.ToString();
+
+
+			var supplyId = supplyPosition.x.ToString() + supplyPosition.y.ToString() + supplyPosition.z.ToString();
+			InstantiateSupply(supplyId, assetName, supplyPosition);
 		}
 	}
 
@@ -72,12 +80,13 @@ public class WorldManager : MonoBehaviour
 		supplyEntities.Add(supplyGenerator.InstantiateNewSupply(supplyId, assetName, position));
 	}
 
-	public void UpdateShips(ShipModel shipFromServer)
+	public void UpdateShips(Ship shipFromServer)
 	{
-		ShipEntity currentShip = shipEntities.Where(x => x.Id == shipFromServer.Id).SingleOrDefault();
+		ShipEntity currentShip = shipEntities.Where(x => x.Id == "ship:"+shipFromServer.Id).SingleOrDefault();
 		if (currentShip == null)
 		{
-			var shipPos = new Vector3(shipFromServer.pos_x, shipFromServer.pos_y, shipFromServer.pos_z);
+			var shipPos = new Vector3(shipFromServer.Pos.Value.X, shipFromServer.Pos.Value.Y, shipFromServer.Pos.Value.Z);
+			
 			var newShip = this.shipGenerator.InstantiateNewShip(shipFromServer, shipPos);
 			if (newShip != null)
 			{
@@ -87,17 +96,19 @@ public class WorldManager : MonoBehaviour
 		else
 		{
 			
-			var shipObject = GameObject.Find(shipFromServer.Id).GetComponent<ShipEntity>();
+			var shipObject = GameObject.Find("ship:"+shipFromServer.Id).GetComponent<ShipEntity>();
 
 			#region EntityInterpolation
 
 			var clientInputTs = (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-			var positionVector3 = new Vector3(shipFromServer.pos_x, shipFromServer.pos_y, shipFromServer.pos_z);
-			if (shipFromServer.captainUserId == shipObject.CaptainUserId)
+			var positionVector3 = new Vector3(shipFromServer.Pos.Value.X,
+												shipFromServer.Pos.Value.Y,
+												shipFromServer.Pos.Value.Z);
+			if (shipFromServer.CaptainUserId == shipObject.CaptainUserId)
 			{
-				DebugManager.instance.usersShipVector.text = string.Format("Ship Server Pos: x:{0} y: {1} z: {2}", (float)shipFromServer.pos_x,
-					(float)shipFromServer.pos_y, (float)shipFromServer.pos_z);
-				DebugManager.instance.usersShipAngle.text = string.Format("Ship Server Angle: {0}", (float)shipFromServer.viewAngle);
+				DebugManager.instance.usersShipVector.text = string.Format("Ship Server Pos: x:{0} y: {1} z: {2}", positionVector3.x,
+					positionVector3.y, positionVector3.z);
+				DebugManager.instance.usersShipAngle.text = string.Format("Ship Server Angle: {0}", (float)shipFromServer.ViewAngle);
 			}
 
 			shipObject.PositionEntries.Add(new
@@ -109,8 +120,8 @@ public class WorldManager : MonoBehaviour
 
 			#endregion
 
-			shipObject.MovementSpeed = shipFromServer.movementSpeed;
-			shipObject.CurrentHealth = shipFromServer.currentHealth;
+			shipObject.MovementSpeed = shipFromServer.MovementSpeed;
+			shipObject.CurrentHealth = shipFromServer.CurrentHealth;
 		}
 	}
 

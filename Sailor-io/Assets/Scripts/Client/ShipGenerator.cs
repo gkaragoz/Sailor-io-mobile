@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Assets.Scripts.Network;
 using Assets.Scripts.Network.Models;
+using SailorIO.Models;
 using UnityEngine;
 
 namespace Assets.Scripts.Client
@@ -25,9 +26,9 @@ namespace Assets.Scripts.Client
 			}
 		}
 
-		public ShipEntity InstantiateNewShip(ShipModel shipFromServer, Vector3 position)
+		public ShipEntity InstantiateNewShip(Ship shipFromServer, Vector3 position)
 		{
-			ShipEntity prefab = GetPrefabFromAssetName(shipFromServer.assetName);
+			ShipEntity prefab = GetPrefabFromAssetName(shipFromServer.AssetType.ToString());
 
 			if (prefab == null)
 			{
@@ -38,21 +39,20 @@ namespace Assets.Scripts.Client
 			ShipEntity entity = Instantiate(prefab.gameObject, position, Quaternion.identity, parentObject).GetComponent<ShipEntity>();
 
 
-			entity.Id = shipFromServer.Id;
-			entity.name = shipFromServer.Id;
-			entity.Name = shipFromServer.Id;
-			entity.MaxSailorsCount = shipFromServer.maxSailorsCount;
-			entity.CurrentSailorsCount = shipFromServer.currentSailorsCount;
-			entity.MaxSuppliesCount = shipFromServer.maxSuppliesCount;
-			entity.CurrentSuppliesCount = shipFromServer.currentSuppliesCount;
-			entity.CaptainUserId = shipFromServer.captainUserId;
-			entity.MovementSpeed = shipFromServer.movementSpeed;
-			entity.SlopeSpeed = shipFromServer.slopeSpeed;
-			entity.RotationSpeed = shipFromServer.rotationSpeed;
-			entity.Health = shipFromServer.maxHealth;
-			entity.CurrentHealth = shipFromServer.currentHealth;
+			entity.Id = "ship:" + shipFromServer.Id;
+			entity.name = "ship:"+shipFromServer.CaptainUserId;
+			entity.Name = "user:" + shipFromServer.CaptainUserId + "'s Ship";
+			//entity.MaxSailorsCount = shipFromServer.maxSailorsCount;
+			//entity.MaxSuppliesCount = shipFromServer.maxSuppliesCount;
+			entity.CurrentSailorsCount = shipFromServer.CurrentSailorsCount;
+			entity.CurrentSuppliesCount = shipFromServer.CurrentSuppliesCount;
+			entity.CaptainUserId = shipFromServer.CaptainUserId;
+			entity.MovementSpeed = shipFromServer.MovementSpeed;
+			entity.SlopeSpeed = shipFromServer.SlopeSpeed;
+			entity.RotationSpeed = shipFromServer.RotationSpeed;
+			entity.CurrentHealth = shipFromServer.CurrentHealth;
 
-			if (SocketManager.instance.io.sid == entity.CaptainUserId)
+			if(SocketManager.userSlotId == entity.CaptainUserId)
 			{
 				entity.isMe = true;
 			}

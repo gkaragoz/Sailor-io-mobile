@@ -12,6 +12,11 @@ public enum EventTypes : sbyte
 {
  UpdateModel = 0,
  WorldInfoUpdate = 1,
+ NewPlayer = 2,
+ BuyNewShip = 3,
+ SailShip = 4,
+ RemovePlayer = 5,
+ PlayerDisconnect = 6,
 };
 
 public enum SupplyTypes : sbyte
@@ -82,13 +87,13 @@ public struct Supply : IFlatbufferObject
   public Supply __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
   public Vec3? Pos { get { int o = __p.__offset(4); return o != 0 ? (Vec3?)(new Vec3()).__assign(o + __p.bb_pos, __p.bb) : null; } }
-  public SupplyTypes SupplyId { get { int o = __p.__offset(6); return o != 0 ? (SupplyTypes)__p.bb.GetSbyte(o + __p.bb_pos) : SupplyTypes.CRATE1; } }
+  public SupplyTypes AssetId { get { int o = __p.__offset(6); return o != 0 ? (SupplyTypes)__p.bb.GetSbyte(o + __p.bb_pos) : SupplyTypes.CRATE1; } }
   public bool IsDeath { get { int o = __p.__offset(8); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
   public bool IsNew { get { int o = __p.__offset(10); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
 
   public static void StartSupply(FlatBufferBuilder builder) { builder.StartObject(4); }
   public static void AddPos(FlatBufferBuilder builder, Offset<Vec3> posOffset) { builder.AddStruct(0, posOffset.Value, 0); }
-  public static void AddSupplyId(FlatBufferBuilder builder, SupplyTypes supplyId) { builder.AddSbyte(1, (sbyte)supplyId, 0); }
+  public static void AddAssetId(FlatBufferBuilder builder, SupplyTypes assetId) { builder.AddSbyte(1, (sbyte)assetId, 0); }
   public static void AddIsDeath(FlatBufferBuilder builder, bool isDeath) { builder.AddBool(2, isDeath, false); }
   public static void AddIsNew(FlatBufferBuilder builder, bool isNew) { builder.AddBool(3, isNew, false); }
   public static Offset<Supply> EndSupply(FlatBufferBuilder builder) {
@@ -145,47 +150,70 @@ public struct WorldInfoTable : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p.bb_pos = _i; __p.bb = _bb; }
   public WorldInfoTable __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public int Height { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int Width { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int Length { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int OffSetX { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int OffSetZ { get { int o = __p.__offset(12); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int OffSetY { get { int o = __p.__offset(14); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public Supply? CurrentSupplies(int j) { int o = __p.__offset(16); return o != 0 ? (Supply?)(new Supply()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
-  public int CurrentSuppliesLength { get { int o = __p.__offset(16); return o != 0 ? __p.__vector_len(o) : 0; } }
+  public int UserSlotId { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int Height { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int Width { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int Length { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int OffSetX { get { int o = __p.__offset(12); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int OffSetZ { get { int o = __p.__offset(14); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int OffSetY { get { int o = __p.__offset(16); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
 
   public static Offset<WorldInfoTable> CreateWorldInfoTable(FlatBufferBuilder builder,
+      int userSlotId = 0,
       int height = 0,
       int width = 0,
       int length = 0,
       int offSetX = 0,
       int offSetZ = 0,
-      int offSetY = 0,
-      VectorOffset currentSuppliesOffset = default(VectorOffset)) {
+      int offSetY = 0) {
     builder.StartObject(7);
-    WorldInfoTable.AddCurrentSupplies(builder, currentSuppliesOffset);
     WorldInfoTable.AddOffSetY(builder, offSetY);
     WorldInfoTable.AddOffSetZ(builder, offSetZ);
     WorldInfoTable.AddOffSetX(builder, offSetX);
     WorldInfoTable.AddLength(builder, length);
     WorldInfoTable.AddWidth(builder, width);
     WorldInfoTable.AddHeight(builder, height);
+    WorldInfoTable.AddUserSlotId(builder, userSlotId);
     return WorldInfoTable.EndWorldInfoTable(builder);
   }
 
   public static void StartWorldInfoTable(FlatBufferBuilder builder) { builder.StartObject(7); }
-  public static void AddHeight(FlatBufferBuilder builder, int height) { builder.AddInt(0, height, 0); }
-  public static void AddWidth(FlatBufferBuilder builder, int width) { builder.AddInt(1, width, 0); }
-  public static void AddLength(FlatBufferBuilder builder, int length) { builder.AddInt(2, length, 0); }
-  public static void AddOffSetX(FlatBufferBuilder builder, int offSetX) { builder.AddInt(3, offSetX, 0); }
-  public static void AddOffSetZ(FlatBufferBuilder builder, int offSetZ) { builder.AddInt(4, offSetZ, 0); }
-  public static void AddOffSetY(FlatBufferBuilder builder, int offSetY) { builder.AddInt(5, offSetY, 0); }
-  public static void AddCurrentSupplies(FlatBufferBuilder builder, VectorOffset currentSuppliesOffset) { builder.AddOffset(6, currentSuppliesOffset.Value, 0); }
-  public static VectorOffset CreateCurrentSuppliesVector(FlatBufferBuilder builder, Offset<Supply>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
-  public static void StartCurrentSuppliesVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
+  public static void AddUserSlotId(FlatBufferBuilder builder, int userSlotId) { builder.AddInt(0, userSlotId, 0); }
+  public static void AddHeight(FlatBufferBuilder builder, int height) { builder.AddInt(1, height, 0); }
+  public static void AddWidth(FlatBufferBuilder builder, int width) { builder.AddInt(2, width, 0); }
+  public static void AddLength(FlatBufferBuilder builder, int length) { builder.AddInt(3, length, 0); }
+  public static void AddOffSetX(FlatBufferBuilder builder, int offSetX) { builder.AddInt(4, offSetX, 0); }
+  public static void AddOffSetZ(FlatBufferBuilder builder, int offSetZ) { builder.AddInt(5, offSetZ, 0); }
+  public static void AddOffSetY(FlatBufferBuilder builder, int offSetY) { builder.AddInt(6, offSetY, 0); }
   public static Offset<WorldInfoTable> EndWorldInfoTable(FlatBufferBuilder builder) {
     int o = builder.EndObject();
     return new Offset<WorldInfoTable>(o);
+  }
+};
+
+public struct RemovePlayerInfoTable : IFlatbufferObject
+{
+  private Table __p;
+  public ByteBuffer ByteBuffer { get { return __p.bb; } }
+  public static RemovePlayerInfoTable GetRootAsRemovePlayerInfoTable(ByteBuffer _bb) { return GetRootAsRemovePlayerInfoTable(_bb, new RemovePlayerInfoTable()); }
+  public static RemovePlayerInfoTable GetRootAsRemovePlayerInfoTable(ByteBuffer _bb, RemovePlayerInfoTable obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
+  public void __init(int _i, ByteBuffer _bb) { __p.bb_pos = _i; __p.bb = _bb; }
+  public RemovePlayerInfoTable __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
+
+  public int UserSlotId { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+
+  public static Offset<RemovePlayerInfoTable> CreateRemovePlayerInfoTable(FlatBufferBuilder builder,
+      int userSlotId = 0) {
+    builder.StartObject(1);
+    RemovePlayerInfoTable.AddUserSlotId(builder, userSlotId);
+    return RemovePlayerInfoTable.EndRemovePlayerInfoTable(builder);
+  }
+
+  public static void StartRemovePlayerInfoTable(FlatBufferBuilder builder) { builder.StartObject(1); }
+  public static void AddUserSlotId(FlatBufferBuilder builder, int userSlotId) { builder.AddInt(0, userSlotId, 0); }
+  public static Offset<RemovePlayerInfoTable> EndRemovePlayerInfoTable(FlatBufferBuilder builder) {
+    int o = builder.EndObject();
+    return new Offset<RemovePlayerInfoTable>(o);
   }
 };
 
@@ -206,6 +234,7 @@ public struct UpdateModel : IFlatbufferObject
   public Ship? ShipModels(int j) { int o = __p.__offset(12); return o != 0 ? (Ship?)(new Ship()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
   public int ShipModelsLength { get { int o = __p.__offset(12); return o != 0 ? __p.__vector_len(o) : 0; } }
   public WorldInfoTable? WorldInfo { get { int o = __p.__offset(14); return o != 0 ? (WorldInfoTable?)(new WorldInfoTable()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
+  public RemovePlayerInfoTable? RemovePlayerInfo { get { int o = __p.__offset(16); return o != 0 ? (RemovePlayerInfoTable?)(new RemovePlayerInfoTable()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
 
   public static Offset<UpdateModel> CreateUpdateModel(FlatBufferBuilder builder,
       EventTypes eventType = EventTypes.UpdateModel,
@@ -213,9 +242,11 @@ public struct UpdateModel : IFlatbufferObject
       double updateTime = 0.0,
       VectorOffset supplyCratesOffset = default(VectorOffset),
       VectorOffset shipModelsOffset = default(VectorOffset),
-      Offset<WorldInfoTable> worldInfoOffset = default(Offset<WorldInfoTable>)) {
-    builder.StartObject(6);
+      Offset<WorldInfoTable> worldInfoOffset = default(Offset<WorldInfoTable>),
+      Offset<RemovePlayerInfoTable> removePlayerInfoOffset = default(Offset<RemovePlayerInfoTable>)) {
+    builder.StartObject(7);
     UpdateModel.AddUpdateTime(builder, updateTime);
+    UpdateModel.AddRemovePlayerInfo(builder, removePlayerInfoOffset);
     UpdateModel.AddWorldInfo(builder, worldInfoOffset);
     UpdateModel.AddShipModels(builder, shipModelsOffset);
     UpdateModel.AddSupplyCrates(builder, supplyCratesOffset);
@@ -224,7 +255,7 @@ public struct UpdateModel : IFlatbufferObject
     return UpdateModel.EndUpdateModel(builder);
   }
 
-  public static void StartUpdateModel(FlatBufferBuilder builder) { builder.StartObject(6); }
+  public static void StartUpdateModel(FlatBufferBuilder builder) { builder.StartObject(7); }
   public static void AddEventType(FlatBufferBuilder builder, EventTypes eventType) { builder.AddSbyte(0, (sbyte)eventType, 0); }
   public static void AddUpdatePassTime(FlatBufferBuilder builder, short updatePassTime) { builder.AddShort(1, updatePassTime, 0); }
   public static void AddUpdateTime(FlatBufferBuilder builder, double updateTime) { builder.AddDouble(2, updateTime, 0.0); }
@@ -235,6 +266,7 @@ public struct UpdateModel : IFlatbufferObject
   public static VectorOffset CreateShipModelsVector(FlatBufferBuilder builder, Offset<Ship>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
   public static void StartShipModelsVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
   public static void AddWorldInfo(FlatBufferBuilder builder, Offset<WorldInfoTable> worldInfoOffset) { builder.AddOffset(5, worldInfoOffset.Value, 0); }
+  public static void AddRemovePlayerInfo(FlatBufferBuilder builder, Offset<RemovePlayerInfoTable> removePlayerInfoOffset) { builder.AddOffset(6, removePlayerInfoOffset.Value, 0); }
   public static Offset<UpdateModel> EndUpdateModel(FlatBufferBuilder builder) {
     int o = builder.EndObject();
     return new Offset<UpdateModel>(o);

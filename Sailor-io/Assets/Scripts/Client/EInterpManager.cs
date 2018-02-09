@@ -52,13 +52,6 @@ namespace Assets.Scripts.Client
 					double t0 = shipEntity.PositionEntries[0].updateTime;
 					double t1 = shipEntity.PositionEntries[1].updateTime;
 
-					//float total = (float)(t1 - t0);
-					//float portion = (float)(clientRenderTime - t0);
-					//var ratio = portion / total;
-
-					//var interpX = Mathf.Lerp(x0, x1, ratio);
-					//var interpY = Mathf.Lerp(y0, y1, ratio);
-
 					var interpX = x0 + (x1 - x0) * (clientRenderTime - t0) / (t1 - t0);
 					var interpZ = z0 + (z1 - z0) * (clientRenderTime - t0) / (t1 - t0);
 

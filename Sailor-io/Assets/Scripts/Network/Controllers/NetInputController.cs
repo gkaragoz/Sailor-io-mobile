@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Assets.Scripts.Network.Models;
 using Assets.Scripts.Network.Utils;
+using FlatBuffers;
+using SailorIO.ClientInputModel;
 using UnityEngine;
 
 namespace Assets.Scripts.Network.Controllers
@@ -84,6 +86,64 @@ namespace Assets.Scripts.Network.Controllers
 			userData.AddField("supplyId", supplyId);
 
 			SocketManager.instance.io.Emit(SupplyEvent.feedShip.ToString(), userData);
+
+		}
+
+		/// <summary>
+		/// Send new player request
+		/// </summary>
+		public static void SendNewPlayerInput()
+		{
+			
+			FlatBufferBuilder fbb = new FlatBufferBuilder(1);
+
+			NewPlayer.StartNewPlayer(fbb);
+			//TODO: SEND CLIENT INFO
+			var newPlayerOffset = NewPlayer.EndNewPlayer(fbb);
+
+			ClientInput.StartClientInput(fbb);
+			ClientInput.AddEventType(fbb, ClientEventTypes.NewPlayer);
+			ClientInput.AddEvent(fbb, newPlayerOffset.Value);
+			var clientInput = ClientInput.EndClientInput(fbb);
+			ClientInput.FinishClientInputBuffer(fbb, clientInput);
+			SocketManager.instance.io.Emit(fbb);
+			
+			Debug.Log("[SENDING NEW PLAYER REQUEST INPUT]");
+
+		}
+
+
+		public static void SendGetWorldInfo()
+		{
+			FlatBufferBuilder fbb = new FlatBufferBuilder(1);
+
+			ClientInput.StartClientInput(fbb);
+			ClientInput.AddEventType(fbb, ClientEventTypes.GetWorldInfo);
+			var clientInput = ClientInput.EndClientInput(fbb);
+			ClientInput.FinishClientInputBuffer(fbb, clientInput);
+			SocketManager.instance.io.Emit(fbb);
+
+			Debug.Log("[SENDING GET WORLD INFO INPUT]");
+
+		}
+
+		public static void SendBuyShipInput()
+		{
+			FlatBufferBuilder fbb = new FlatBufferBuilder(1);
+			BuyNewShip.StartBuyNewShip(fbb);
+
+			//TODO CHANGE SHIPTYPES
+			BuyNewShip.AddShip(fbb, ShipTypes.RAFT1);
+			//TODO: SEND CLIENT INFO
+			var newPlayerOffset = BuyNewShip.EndBuyNewShip(fbb);
+			ClientInput.StartClientInput(fbb);
+			ClientInput.AddEventType(fbb, ClientEventTypes.BuyNewShip);
+			ClientInput.AddEvent(fbb, newPlayerOffset.Value);
+			var clientInput = ClientInput.EndClientInput(fbb);
+			ClientInput.FinishClientInputBuffer(fbb, clientInput);
+			SocketManager.instance.io.Emit(fbb);
+
+			Debug.Log("[SENDING BUY SHIP INPUT]");
 
 		}
 	}

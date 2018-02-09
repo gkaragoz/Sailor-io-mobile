@@ -31,6 +31,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using FlatBuffers;
 using SailorIO.ClientInputModel;
@@ -47,7 +48,7 @@ namespace SocketIO
 		public bool runInLocalhost = false;
 		public bool isBinaryData = false;
 		public string localhostURL = "ws://localhost:9980";
-		public string serverURL = "wss://sailor-gameserver.herokuapp.com//socket.io/?EIO=4&transport=websocket";
+		public string serverURL = "wss://sailor-gameserver.herokuapp.com";
 		public bool autoConnect = false;
 		public int reconnectDelay = 5;
 		public float ackExpirationTime = 1800f;
@@ -109,6 +110,7 @@ namespace SocketIO
 			else
 				ws = new WebSocket(serverURL);
 
+			sid = ws.base64Key;
 			ws.OnOpen += OnOpen;
 			ws.OnMessage += OnMessage;
 			ws.OnError += OnError;
@@ -241,18 +243,10 @@ namespace SocketIO
 		{
 			EmitMessage(-1, string.Format("[\"{0}\"]", ev));
 		}
-		public void Emit(ClientEventEnum ev)
+	
+		public void Emit(FlatBufferBuilder fbb)
 		{
-			FlatBufferBuilder fbb = new FlatBufferBuilder(1);
-			ClientInput.StartClientInput(fbb);
-			ClientInput.AddClientEventType(fbb, ev);
-			var clientInput = ClientInput.EndClientInput(fbb);
-			ClientInput.FinishClientInputBuffer(fbb, clientInput);
 			EmitMessage(fbb);
-		}
-		public void Emit(FlatBufferBuilder ev)
-		{
-			EmitMessage(-1, string.Format("[\"{0}\"]", ev));
 		}
 
 		public void Emit(string ev, Action<JSONObject> action)
@@ -372,7 +366,7 @@ namespace SocketIO
 
 			try
 			{
-				ws.Send(fbb.DataBuffer.Data);
+				ws.Send(fbb.SizedByteArray());
 			}
 			catch (SocketIOException ex)
 			{

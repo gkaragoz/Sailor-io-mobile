@@ -19,6 +19,7 @@ namespace Assets.Scripts.Network
 		public static int latency;
 		public static int tickRate;
 		public static float timeBetweenTick;
+		public static int userSlotId;
 
 		void Awake()
 		{
