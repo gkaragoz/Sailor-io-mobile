@@ -78,7 +78,7 @@ public class ShipController : ShipEntity
 				//When server approved that request somewhere in listener function, 
 				//use that method to destroy this supply from client's scene.
 				//Probably this method will be in supplyEntities list in WorldManager for every client.
-				NetInputController.SendShipSupplyFeedInput(this.Id.ToString(), supply.ID);
+				NetInputController.SendShipSupplyFeedInput(this.Id, supply.transform.position);
 				//OnSupplyCollected();
 				//Give some golds to players in ship.
 

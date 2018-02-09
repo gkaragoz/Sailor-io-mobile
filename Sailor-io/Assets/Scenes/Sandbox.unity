@@ -156,9 +156,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runInLocalhost: 1
-  isBinaryData: 0
+  isBinaryData: 1
   localhostURL: ws://localhost:9980
-  serverURL: wss://sailor-gameserver.herokuapp.com//socket.io/?EIO=4&transport=websocket
+  serverURL: wss://sailor-gameserver.herokuapp.com
   autoConnect: 1
   reconnectDelay: 5
   ackExpirationTime: 1800

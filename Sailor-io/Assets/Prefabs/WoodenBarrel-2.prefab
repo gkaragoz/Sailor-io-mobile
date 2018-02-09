@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 114563342598314718}
   - component: {fileID: 114426246722874002}
   m_Layer: 0
-  m_Name: WOODENBARREL2
+  m_Name: WoodenBarrel-2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

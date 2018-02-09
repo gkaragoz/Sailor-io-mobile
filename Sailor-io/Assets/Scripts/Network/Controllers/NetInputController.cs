@@ -78,14 +78,24 @@ namespace Assets.Scripts.Network.Controllers
 		/// wasd Input function 
 		/// </summary>
 		/// <param name="e"></param>
-		public static void SendShipSupplyFeedInput(string shipId, string supplyId)
+		public static void SendShipSupplyFeedInput(string shipIdstr, Vector3 supplyPos)
 		{
-			JSONObject userData = new JSONObject();
 
-			userData.AddField("shipId", shipId);
-			userData.AddField("supplyId", supplyId);
+			int shipId = int.Parse(shipIdstr.Split(':')[1]);
+			FlatBufferBuilder fbb = new FlatBufferBuilder(1);
+			FeedShip.StartFeedShip(fbb);
+			FeedShip.AddShipId(fbb, shipId);
+			FeedShip.AddSupplyPos(fbb, Vec3.CreateVec3(fbb, supplyPos.x, supplyPos.y, supplyPos.z));
+			var feedShipOffset = FeedShip.EndFeedShip(fbb);
 
-			SocketManager.instance.io.Emit(SupplyEvent.feedShip.ToString(), userData);
+			ClientInput.StartClientInput(fbb);
+			ClientInput.AddEventType(fbb, ClientEventTypes.FeedShip);
+			ClientInput.AddEvent(fbb, feedShipOffset.Value);
+			var clientInput = ClientInput.EndClientInput(fbb);
+			ClientInput.FinishClientInputBuffer(fbb, clientInput);
+			SocketManager.instance.io.Emit(fbb);
+
+			Debug.Log("[Supply Feed]");
 
 		}
 

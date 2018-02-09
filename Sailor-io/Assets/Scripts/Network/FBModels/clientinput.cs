@@ -15,11 +15,32 @@ public enum ClientEventTypes : byte
  NewPlayer = 2,
  BuyNewShip = 3,
  SailShip = 4,
+ FeedShip = 5,
 };
 
 public enum ShipTypes : sbyte
 {
  RAFT1 = 0,
+};
+
+public struct Vec3 : IFlatbufferObject
+{
+  private Struct __p;
+  public ByteBuffer ByteBuffer { get { return __p.bb; } }
+  public void __init(int _i, ByteBuffer _bb) { __p.bb_pos = _i; __p.bb = _bb; }
+  public Vec3 __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
+
+  public float X { get { return __p.bb.GetFloat(__p.bb_pos + 0); } }
+  public float Y { get { return __p.bb.GetFloat(__p.bb_pos + 4); } }
+  public float Z { get { return __p.bb.GetFloat(__p.bb_pos + 8); } }
+
+  public static Offset<Vec3> CreateVec3(FlatBufferBuilder builder, float X, float Y, float Z) {
+    builder.Prep(4, 12);
+    builder.PutFloat(Z);
+    builder.PutFloat(Y);
+    builder.PutFloat(X);
+    return new Offset<Vec3>(builder.Offset);
+  }
 };
 
 public struct BuyNewShip : IFlatbufferObject
@@ -106,6 +127,27 @@ public struct NewPlayer : IFlatbufferObject
   public static Offset<NewPlayer> EndNewPlayer(FlatBufferBuilder builder) {
     int o = builder.EndObject();
     return new Offset<NewPlayer>(o);
+  }
+};
+
+public struct FeedShip : IFlatbufferObject
+{
+  private Table __p;
+  public ByteBuffer ByteBuffer { get { return __p.bb; } }
+  public static FeedShip GetRootAsFeedShip(ByteBuffer _bb) { return GetRootAsFeedShip(_bb, new FeedShip()); }
+  public static FeedShip GetRootAsFeedShip(ByteBuffer _bb, FeedShip obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
+  public void __init(int _i, ByteBuffer _bb) { __p.bb_pos = _i; __p.bb = _bb; }
+  public FeedShip __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
+
+  public Vec3? SupplyPos { get { int o = __p.__offset(4); return o != 0 ? (Vec3?)(new Vec3()).__assign(o + __p.bb_pos, __p.bb) : null; } }
+  public int ShipId { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+
+  public static void StartFeedShip(FlatBufferBuilder builder) { builder.StartObject(2); }
+  public static void AddSupplyPos(FlatBufferBuilder builder, Offset<Vec3> supplyPosOffset) { builder.AddStruct(0, supplyPosOffset.Value, 0); }
+  public static void AddShipId(FlatBufferBuilder builder, int shipId) { builder.AddInt(1, shipId, 0); }
+  public static Offset<FeedShip> EndFeedShip(FlatBufferBuilder builder) {
+    int o = builder.EndObject();
+    return new Offset<FeedShip>(o);
   }
 };
 

@@ -72,6 +72,11 @@ namespace Assets.Scripts.Network.Controllers
 			Debug.Log("[NEW SHIP BOUGHT]");
 
 		}
+		public static void OnShipSupplyFeed(SocketIOEvent e)
+		{
+			Debug.Log("[NEW SUPPLY FEED]");
+
+		}
 		public static void OnShipSail(SocketIOEvent e)
 		{
 			Debug.Log("[USER SHIP SAIL]");
@@ -105,21 +110,24 @@ namespace Assets.Scripts.Network.Controllers
 			#region SupplyCrateStatus
 			for (int i = 0; i < e.data.SupplyCratesLength; i++)
 			{
+				
 				var supply = e.data.SupplyCrates(i).Value;
+				var supplyPosition = new Vector3(
+					supply.Pos.Value.X,
+					supply.Pos.Value.Y,
+					supply.Pos.Value.Z);
+				var supplyId = supplyPosition.x.ToString() + supplyPosition.y.ToString() + supplyPosition.z.ToString();
+
 				if (supply.IsDeath)
 				{
-					//var deadSupply = WorldManager.instance.supplyEntities.Where(x => x.ID == supply).SingleOrDefault();
-					//WorldManager.instance.supplyEntities.Remove(deadSupply);
+					var deadSupply = WorldManager.instance.supplyEntities.Where(x => x.ID == supplyId).SingleOrDefault();
+					WorldManager.instance.supplyEntities.Remove(deadSupply);
 					continue;
 				}
 				else if (supply.IsNew)
 				{
-					var supplyPosition = new Vector3(
-						supply.Pos.Value.X,
-						supply.Pos.Value.Y,
-						supply.Pos.Value.Z);
+
 					var assetName = supply.AssetId.ToString();
-					var supplyId = supplyPosition.x.ToString() + supplyPosition.y.ToString() + supplyPosition.z.ToString();
 					WorldManager.instance.InstantiateSupply(supplyId, assetName, supplyPosition);
 					//WorldManager.instance.InstantiateSupply(supply.supplyId, supply.assetName, position);
 				}
@@ -152,6 +160,7 @@ namespace Assets.Scripts.Network.Controllers
 
 			SocketManager.instance.io.On(EventTypes.BuyNewShip.ToString(), OnNewShipBought);
 			SocketManager.instance.io.On(EventTypes.SailShip.ToString(), OnShipSail);
+			SocketManager.instance.io.On(ClientEventTypes.FeedShip.ToString(), OnShipSupplyFeed);
 			//SocketManager.instance.io.Emit(ShipEvent.newShip.ToString());
 		}
 	}
