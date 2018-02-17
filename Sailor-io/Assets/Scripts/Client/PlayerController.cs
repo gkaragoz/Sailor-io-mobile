@@ -44,7 +44,7 @@ public class PlayerController : PlayerEntity {
                 NetInputController.SendPlayerMovementInput(transform.right, Time.deltaTime);
         }
 
-        transform.rotation = Quaternion.Euler(0f, Camera.main.transform.rotation.eulerAngles.y, 0f);
+        transform.rotation = Quaternion.Euler(0f, Camera.main.transform.rotation.eulerAngles.y, Ship.transform.rotation.eulerAngles.z);
     }
 
     void OnTriggerEnter(Collider other) {
