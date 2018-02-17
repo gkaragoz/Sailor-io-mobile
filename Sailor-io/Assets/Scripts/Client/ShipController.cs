@@ -6,6 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class ShipController : ShipEntity
 {
+    public bool goForward;
 	public bool rotatingRight, rotatingLeft;
 
 	private float _rotationY, _rotationZ;
@@ -25,7 +26,8 @@ public class ShipController : ShipEntity
 
 		if (GameManager.instance.offlineMode)
 		{
-			transform.Translate(Vector3.forward * MovementSpeed * Time.deltaTime);
+            if (goForward)
+			    transform.Translate(Vector3.forward * MovementSpeed * Time.deltaTime);
 
 			if (rotatingRight)
 			{
