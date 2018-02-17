@@ -1339,10 +1339,12 @@ MonoBehaviour:
   _maxSailorsCount: 3
   _currentSailorsCount: 0
   _marketPrice: 100
-  _captainUserId: 
+  _captainUserId: 0
   _supplyCollectorRange: 10
+  isMe: 0
   _captain: {fileID: 0}
   _playerEntities: []
+  goForward: 0
   rotatingRight: 0
   rotatingLeft: 0
 --- !u!114 &114393596103426236
