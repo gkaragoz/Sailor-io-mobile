@@ -15,8 +15,9 @@ public enum EventTypes : sbyte
  NewPlayer = 2,
  BuyNewShip = 3,
  SailShip = 4,
- RemovePlayer = 5,
- PlayerDisconnect = 6,
+ LandShip = 5,
+ RemovePlayer = 6,
+ PlayerDisconnect = 7,
 };
 
 public enum SupplyTypes : sbyte
@@ -87,15 +88,17 @@ public struct Supply : IFlatbufferObject
   public Supply __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
   public Vec3? Pos { get { int o = __p.__offset(4); return o != 0 ? (Vec3?)(new Vec3()).__assign(o + __p.bb_pos, __p.bb) : null; } }
-  public SupplyTypes AssetId { get { int o = __p.__offset(6); return o != 0 ? (SupplyTypes)__p.bb.GetSbyte(o + __p.bb_pos) : SupplyTypes.CRATE1; } }
-  public bool IsDeath { get { int o = __p.__offset(8); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
-  public bool IsNew { get { int o = __p.__offset(10); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
+  public int SupplyId { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public SupplyTypes AssetId { get { int o = __p.__offset(8); return o != 0 ? (SupplyTypes)__p.bb.GetSbyte(o + __p.bb_pos) : SupplyTypes.CRATE1; } }
+  public bool IsDeath { get { int o = __p.__offset(10); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
+  public bool IsNew { get { int o = __p.__offset(12); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
 
-  public static void StartSupply(FlatBufferBuilder builder) { builder.StartObject(4); }
+  public static void StartSupply(FlatBufferBuilder builder) { builder.StartObject(5); }
   public static void AddPos(FlatBufferBuilder builder, Offset<Vec3> posOffset) { builder.AddStruct(0, posOffset.Value, 0); }
-  public static void AddAssetId(FlatBufferBuilder builder, SupplyTypes assetId) { builder.AddSbyte(1, (sbyte)assetId, 0); }
-  public static void AddIsDeath(FlatBufferBuilder builder, bool isDeath) { builder.AddBool(2, isDeath, false); }
-  public static void AddIsNew(FlatBufferBuilder builder, bool isNew) { builder.AddBool(3, isNew, false); }
+  public static void AddSupplyId(FlatBufferBuilder builder, int supplyId) { builder.AddInt(1, supplyId, 0); }
+  public static void AddAssetId(FlatBufferBuilder builder, SupplyTypes assetId) { builder.AddSbyte(2, (sbyte)assetId, 0); }
+  public static void AddIsDeath(FlatBufferBuilder builder, bool isDeath) { builder.AddBool(3, isDeath, false); }
+  public static void AddIsNew(FlatBufferBuilder builder, bool isNew) { builder.AddBool(4, isNew, false); }
   public static Offset<Supply> EndSupply(FlatBufferBuilder builder) {
     int o = builder.EndObject();
     return new Offset<Supply>(o);

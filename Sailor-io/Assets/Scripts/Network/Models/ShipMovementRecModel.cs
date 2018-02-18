@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Assets.Scripts.Network.Utils;
 
 namespace Assets.Scripts.Network.Models
 {
-	public class PlayerMovementRecModel
+	public class ShipMovementRecModel
 	{
 		public float vcX;
 		public float vcZ;
@@ -16,5 +15,4 @@ namespace Assets.Scripts.Network.Models
 		public float dtTime;
 		public string playerEventName;
 	}
-
 }

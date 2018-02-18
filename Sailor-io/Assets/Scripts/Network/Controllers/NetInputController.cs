@@ -29,7 +29,7 @@ namespace Assets.Scripts.Network.Controllers
 			newRequest.playerEventName = PlayerEvent.playerMouseRotation.ToString();
 			newRequest.inputTime = DateTime.Now.Second + DateTime.Now.Millisecond;
 
-			SocketManager.pendingInputs.Add(newRequest);
+			SocketManager.pendingUserInputs.Add(newRequest);
 			#endregion
 
 			JSONObject userData = new JSONObject();
@@ -38,7 +38,7 @@ namespace Assets.Scripts.Network.Controllers
 			userData.AddField("vcX", directionVector.x);
 			userData.AddField("vcZ", directionVector.z);
 			userData.AddField("vcY", directionVector.y);
-			var pendingInputLen = SocketManager.pendingInputs.Count;
+			var pendingInputLen = SocketManager.pendingUserInputs.Count;
 			Debug.Log("[Player Rotation Input Sent]");
 			SocketManager.instance.io.Emit(PlayerEvent.playerMouseRotation.ToString(), userData);
 
@@ -60,7 +60,7 @@ namespace Assets.Scripts.Network.Controllers
 			newRequest.dtTime = dtTime;
 			newRequest.playerEventName = PlayerEvent.playerMove.ToString();
 			newRequest.inputTime = DateTime.Now.Second + DateTime.Now.Millisecond;
-			SocketManager.pendingInputs.Add(newRequest);
+			SocketManager.pendingUserInputs.Add(newRequest);
 			#endregion
 
 			userData.AddField("sequenceId", SocketManager.nonAckInputIndex);
@@ -68,7 +68,7 @@ namespace Assets.Scripts.Network.Controllers
 			userData.AddField("vcX", directionVector.x);
 			userData.AddField("vcZ", directionVector.z);
 			userData.AddField("vcY", directionVector.y);
-			var pendingInputLen = SocketManager.pendingInputs.Count;
+			var pendingInputLen = SocketManager.pendingUserInputs.Count;
 			Debug.Log("[Player Movement Input Sent]");
 			SocketManager.instance.io.Emit(PlayerEvent.playerMove.ToString(), userData);
 
