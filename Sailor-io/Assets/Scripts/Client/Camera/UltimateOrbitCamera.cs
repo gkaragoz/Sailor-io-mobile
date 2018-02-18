@@ -137,7 +137,7 @@ public class UltimateOrbitCamera : MonoBehaviour {
             this.yVelocity *= this.dampeningY;
             this.zoomVelocity = 0f;
         } else {
-            //Debug.LogWarning("Orbit Cam - No Target Given");
+            Debug.LogWarning("Orbit Cam - No Target Given");
         }
     }
 }
