@@ -9,6 +9,8 @@ public class RotateItself : MonoBehaviour {
     public bool rotateY = true;
     public bool rotateZ = true;
 
+    public bool randomizeSpeed = true;
+
     [Range(5f, 30f)]
     public float speed = 5f;
     public bool clockwise = false;
@@ -17,7 +19,8 @@ public class RotateItself : MonoBehaviour {
         if (UnityEngine.Random.Range(0, 1f) <= 0.5f)
             clockwise = true;
 
-        speed = UnityEngine.Random.Range(5f, 30f);
+        if (randomizeSpeed)
+            speed = UnityEngine.Random.Range(5f, 30f);
     }
 
     private void Update() {
