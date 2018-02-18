@@ -83,7 +83,7 @@ public class UltimateOrbitCamera : MonoBehaviour {
             this.position = ((Vector3)(this._transform.rotation * new Vector3(0f, 0f, -this.distance))) + this.target.position;
     }
 
-    private void Update() {
+    private void LateUpdate() {
         if (this.target != null) {
             if (this.joystickControl) {
                 this.xVelocity += (joystick.InputDirection.x * this.xSpeed) * this.invertXValue;
