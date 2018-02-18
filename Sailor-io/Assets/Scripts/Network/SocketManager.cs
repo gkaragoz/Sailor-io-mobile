@@ -14,7 +14,8 @@ namespace Assets.Scripts.Network
 		public static SocketManager instance;
 		public SocketIOComponent io;
 
-		public static List<PlayerMovementRecModel> pendingInputs;
+		public static List<PlayerMovementRecModel> pendingUserInputs;
+		public static List<ShipMovementRecModel> pendingShipInputs;
 		public static int nonAckInputIndex;
 		public static int latency;
 		public static int tickRate;
@@ -27,7 +28,8 @@ namespace Assets.Scripts.Network
 				instance = this;
 
 			DontDestroyOnLoad(instance);
-			pendingInputs = new List<PlayerMovementRecModel>();
+			pendingUserInputs = new List<PlayerMovementRecModel>();
+			pendingShipInputs = new List<ShipMovementRecModel>();
 
 		}
 		void Start()

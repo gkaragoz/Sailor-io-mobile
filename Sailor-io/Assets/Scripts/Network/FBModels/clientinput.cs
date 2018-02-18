@@ -16,6 +16,7 @@ public enum ClientEventTypes : byte
  BuyNewShip = 3,
  SailShip = 4,
  FeedShip = 5,
+ LandShip = 6,
 };
 
 public enum ShipTypes : sbyte
@@ -83,6 +84,23 @@ public struct SailShip : IFlatbufferObject
   public static Offset<SailShip> EndSailShip(FlatBufferBuilder builder) {
     int o = builder.EndObject();
     return new Offset<SailShip>(o);
+  }
+};
+
+public struct LandShip : IFlatbufferObject
+{
+  private Table __p;
+  public ByteBuffer ByteBuffer { get { return __p.bb; } }
+  public static LandShip GetRootAsLandShip(ByteBuffer _bb) { return GetRootAsLandShip(_bb, new LandShip()); }
+  public static LandShip GetRootAsLandShip(ByteBuffer _bb, LandShip obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
+  public void __init(int _i, ByteBuffer _bb) { __p.bb_pos = _i; __p.bb = _bb; }
+  public LandShip __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
+
+
+  public static void StartLandShip(FlatBufferBuilder builder) { builder.StartObject(0); }
+  public static Offset<LandShip> EndLandShip(FlatBufferBuilder builder) {
+    int o = builder.EndObject();
+    return new Offset<LandShip>(o);
   }
 };
 
