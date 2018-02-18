@@ -61,8 +61,8 @@ public class CameraController : MonoBehaviour {
 	
 	//called when one finger drag are detected
 	void OnDragging(DragInfo dragInfo) {
-		//vertical movement is corresponded to rotation in x-axis
-		orbitSpeedX=-dragInfo.delta.y*rotXSpeedModifier;
+        //vertical movement is corresponded to rotation in x-axis
+        orbitSpeedX =-dragInfo.delta.y*rotXSpeedModifier;
 		//horizontal movement is corresponded to rotation in y-axis
 		orbitSpeedY=dragInfo.delta.x*rotYSpeedModifier;
 	}

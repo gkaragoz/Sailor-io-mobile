@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d66284a8f1370c8449fbbd2a7085bd67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offlineMode: 0
+  offlineMode: 1
   offlineShipPrefab: {fileID: 1125681972545352, guid: 53054b5840472174cab761b813f8d6d5,
     type: 2}
 --- !u!4 &235246901
