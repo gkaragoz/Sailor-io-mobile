@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 198e859cb9865b54389d8db8e6b1841f
+timeCreated: 1518391568
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Spastic Nerfbag
+  fontNames:
+  - Spastic Nerfbag
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
