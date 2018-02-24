@@ -378,7 +378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d66284a8f1370c8449fbbd2a7085bd67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offlineMode: 1
+  offlineMode: 0
   offlineShipPrefab: {fileID: 1125681972545352, guid: 53054b5840472174cab761b813f8d6d5,
     type: 2}
 --- !u!4 &235246901
@@ -408,10 +408,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   supplyPrefabs:
-  - {fileID: 1583475191603386, guid: 44b3cd616b9acfa4fba661a8847fa616, type: 2}
-  - {fileID: 1591990169812400, guid: 173f4d11fee170e48864e9c6cbadb5b2, type: 2}
-  - {fileID: 1717208835168076, guid: 252e8cd979242e84db21d82a0583ecd6, type: 2}
-  - {fileID: 1903430876855646, guid: e7f0a93f774dfbb40a6a04de050a3394, type: 2}
+  - {fileID: 1422436370684562, guid: 3db6ddfbad397df4398a340a9f32c01d, type: 2}
+  - {fileID: 1449412779431276, guid: 442d69534612f3447ab72a4a7af3cc3c, type: 2}
+  - {fileID: 1467166544297046, guid: 37d73eb5a24769c4992c0a3caa3c6b59, type: 2}
+  - {fileID: 1874577917270014, guid: 05c86d6fad3af3a429a202a5ae30cc86, type: 2}
 --- !u!114 &235246904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,7 +442,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipPrefabs:
-  - {fileID: 1163405589843710, guid: d476f85a3a5be674da133003ddce281f, type: 2}
+  - {fileID: 1929953154526358, guid: 175a1a84e3aad1f4e834e31a5a1adb12, type: 2}
 --- !u!1 &239308113
 GameObject:
   m_ObjectHideFlags: 0
