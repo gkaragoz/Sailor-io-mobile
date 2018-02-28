@@ -8,69 +8,63 @@ public class UIManager : MonoBehaviour
 {
 	public static UIManager instance;
 
-	#region LoginScreen
+    [Header("UI Parent Objects")]
+    #region UI Parent Objects
+    public GameObject objLoginParent;
+    public GameObject objGameplayParent;
+    public GameObject objDebugParent;
+    #endregion
 
-	public string GameServerUrl;
-	private Button btnEnter;
-	private InputField inputNickname;
-	private InputField inputPassword;
-	private string LogonUserEmail;
-	private string LogonUserId;
-	private string GameAccessToken;
-	#endregion
-	void Awake()
-	{
+    [Header("HUD References")]
+    #region HUD
+    public Text txtHealth_HUD;
+    public Text txtSupply_HUD;
+    public Text txtSailor_HUD;
+    public Text txtGold_HUD;
+    
+    //Join a crew
+    //Leaderboard
+    #endregion
+
+    private void Awake() {
 		if (instance == null)
 			instance = this;
 
 		DontDestroyOnLoad(instance);
-		GetUIReferences();
-		AssignBtnDelegates();
 	}
 
-	private void AssignBtnDelegates()
-	{
-		btnEnter.onClick.AddListener(delegate
-		{
-			OnLogin();
-		});
-	}
-
-	private void GetUIReferences()
-	{
-		btnEnter = GameObject.Find("btnEnter").GetComponent<Button>();
-		inputNickname = GameObject.Find("inputNickname").GetComponent<InputField>();
-		inputPassword = GameObject.Find("inputPassword").GetComponent<InputField>();
-	}
-
-	private void OnLogin()
-	{
-		string email = inputNickname.text;
-		string password = inputPassword.text;
-
-		if (string.IsNullOrEmpty(email) && string.IsNullOrEmpty(password))
-			return;
-
-		#region LoginRequest
-		var authResult = AuthManager.instance.doPostLogin(email, password);
-		if (authResult != null)
-		{
-			var userField = authResult.GetField("user");
-			var tokenField = authResult.GetField("token");
-
-			LogonUserEmail = userField.GetField("email").ToString();
-			LogonUserId = userField.GetField("id").ToString();
-			GameAccessToken = tokenField.GetField("accessToken").ToString();
-
-			Debug.Log("Successfully logged in ! >> " + LogonUserId);
-			Debug.Log("Welcome ! >> " + LogonUserEmail);
-			ChangeScene("Sandbox");
-		}
-		#endregion
-	}
-
-	public void ChangeScene(string sceneName)
-	{
+	public void ChangeScene(string sceneName) {
 		SceneManager.LoadScene(sceneName);
 	}
+    
+    public void ShowOfflineModeUI() {
+        objLoginParent.SetActive(false);
+        objGameplayParent.SetActive(true);
+        objDebugParent.SetActive(true);
+    }
+
+    public void HideOfflineModeUI() {
+        objLoginParent.SetActive(true);
+        objGameplayParent.SetActive(false);
+        objDebugParent.SetActive(false);
+    }
+
+    #region HUD Set Methods
+    public void SetHealthHUD(float currentHealth, float maxHealth) {
+        txtHealth_HUD.text = currentHealth + " / " + maxHealth;
+    }
+
+    public void SetSupplyHUD(int currentAmount, int maxCapacity) {
+        txtSupply_HUD.text = currentAmount + " / " + maxCapacity;
+    }
+
+    public void SetSailorHUD(int currentCrewCount, int maxCrewCount) {
+        txtSailor_HUD.text = currentCrewCount + " / " + maxCrewCount;
+    }
+
+    public void SetGoldHUD(int amount) {
+        txtGold_HUD.text = amount.ToString();
+    }
+    #endregion
+
 }

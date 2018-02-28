@@ -37,19 +37,20 @@ public class AuthManager : MonoBehaviour
 		// convert json string to byte
 		var formData = System.Text.Encoding.UTF8.GetBytes(json.ToString());
 
-		WWW www = new WWW(UIManager.instance.GameServerUrl + gameServerLoginURI, formData, headers);
-		StartCoroutine(CheckTimeout(www));
+        // TODO - Create LoginManager script and assign tons of config data about server like GameServerUrl
+		//WWW www = new WWW(UIManager.instance.GameServerUrl + gameServerLoginURI, formData, headers);
+		//StartCoroutine(CheckTimeout(www));
 		
-		string jsonData = "";
+		//string jsonData = "";
 		
-		if (string.IsNullOrEmpty(www.error))
+		//if (string.IsNullOrEmpty(www.error))
 		{
-			jsonData = System.Text.Encoding.UTF8.GetString(www.bytes, 0,
-				www.bytes.Length);
-			return new JSONObject(jsonData);
+			//jsonData = System.Text.Encoding.UTF8.GetString(www.bytes, 0,
+				//www.bytes.Length);
+			//return new JSONObject(jsonData);
 
 		}
-		else
+		//else
 		{
 			return null;
 		}
