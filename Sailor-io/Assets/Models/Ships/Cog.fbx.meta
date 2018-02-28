@@ -13,6 +13,7 @@ ModelImporter:
     100010: Sails Main
     100012: Wheel
     100014: Yards Middle
+    100016: Wheel Stand
     400000: //RootNode
     400002: Deck
     400004: Deck.001
@@ -21,6 +22,7 @@ ModelImporter:
     400010: Sails Main
     400012: Wheel
     400014: Yards Middle
+    400016: Wheel Stand
     2100000: No Name
     2300000: Deck
     2300002: Deck.001
@@ -29,6 +31,7 @@ ModelImporter:
     2300008: Sails Main
     2300010: Wheel
     2300012: Yards Middle
+    2300014: Wheel Stand
     3300000: Deck
     3300002: Deck.001
     3300004: Mast and Ropes
@@ -36,6 +39,7 @@ ModelImporter:
     3300008: Sails Main
     3300010: Wheel
     3300012: Yards Middle
+    3300014: Wheel Stand
     4300000: Deck.001
     4300002: Wheel
     4300004: Mast and Ropes.002
@@ -43,6 +47,7 @@ ModelImporter:
     4300008: Yards Middle
     4300010: Sails Main
     4300012: Deck
+    4300014: Wheel Stand
   externalObjects: {}
   materials:
     importMaterials: 0
