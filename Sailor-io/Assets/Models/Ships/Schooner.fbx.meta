@@ -1,0 +1,160 @@
+fileFormatVersion: 2
+guid: 4ed90761119a0da46af1f6c96c60bb80
+timeCreated: 1519832435
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Bowsprit
+    100002: Deck
+    100004: Deck.003
+    100006: Mast and Ropes
+    100008: Rope Ladders
+    100010: Sail Middle
+    100012: Sail Rear
+    100014: Sails Front
+    100016: Sails Main
+    100018: //RootNode
+    100020: Wheel
+    100022: Wheel Stand
+    100024: Yards Main
+    100026: Yards Middle
+    100028: Yards Rear
+    400000: Bowsprit
+    400002: Deck
+    400004: Deck.003
+    400006: Mast and Ropes
+    400008: Rope Ladders
+    400010: Sail Middle
+    400012: Sail Rear
+    400014: Sails Front
+    400016: Sails Main
+    400018: //RootNode
+    400020: Wheel
+    400022: Wheel Stand
+    400024: Yards Main
+    400026: Yards Middle
+    400028: Yards Rear
+    2100000: No Name
+    2300000: Bowsprit
+    2300002: Deck
+    2300004: Deck.003
+    2300006: Mast and Ropes
+    2300008: Rope Ladders
+    2300010: Sail Middle
+    2300012: Sail Rear
+    2300014: Sails Front
+    2300016: Sails Main
+    2300018: Wheel
+    2300020: Wheel Stand
+    2300022: Yards Main
+    2300024: Yards Middle
+    2300026: Yards Rear
+    3300000: Bowsprit
+    3300002: Deck
+    3300004: Deck.003
+    3300006: Mast and Ropes
+    3300008: Rope Ladders
+    3300010: Sail Middle
+    3300012: Sail Rear
+    3300014: Sails Front
+    3300016: Sails Main
+    3300018: Wheel
+    3300020: Wheel Stand
+    3300022: Yards Main
+    3300024: Yards Middle
+    3300026: Yards Rear
+    4300000: Deck.003
+    4300002: Rope Ladders
+    4300004: Yards Rear
+    4300006: Sail Rear
+    4300008: Bowsprit
+    4300010: Wheel Stand
+    4300012: Mast and Ropes
+    4300014: Wheel
+    4300016: Yards Main
+    4300018: Sails Front
+    4300020: Sail Middle
+    4300022: Sails Main
+    4300024: Yards Middle
+    4300026: Deck
+  externalObjects: {}
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
