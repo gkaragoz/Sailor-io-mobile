@@ -35,7 +35,9 @@ public class PlayerEntity : MonoBehaviour {
 
     public int Gold {
         get { return _gold; }
-        set { _gold = value; }
+        set { _gold = value;
+            UIManager.instance.SetGoldHUD(_gold);
+        }
     }
 
     public float MovementSpeed {

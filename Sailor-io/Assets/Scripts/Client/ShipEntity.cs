@@ -44,11 +44,15 @@ public class ShipEntity : MonoBehaviour {
 
     public float Health {
         get { return _health; }
-        set { _health = value; }
+        set { _health = value;
+            UIManager.instance.SetHealthHUD(_currentHealth, _health);
+        }
     }
     public float CurrentHealth {
         get { return _currentHealth; }
-        set { _currentHealth = value; }
+        set { _currentHealth = value;
+            UIManager.instance.SetHealthHUD(_currentHealth, _health);
+        }
     }
 
     public float MovementSpeed {
@@ -68,22 +72,30 @@ public class ShipEntity : MonoBehaviour {
 
     public int MaxSuppliesCount {
         get { return _maxSuppliesCount; }
-        set { _maxSuppliesCount = value; }
+        set { _maxSuppliesCount = value;
+            UIManager.instance.SetSupplyHUD(_currentSuppliesCount, _maxSuppliesCount);
+        }
     }
 
     public int CurrentSuppliesCount {
         get { return _currentSuppliesCount; }
-        set { _currentSuppliesCount = value; }
+        set { _currentSuppliesCount = value;
+            UIManager.instance.SetSupplyHUD(_currentSuppliesCount, _maxSuppliesCount);
+        }
     }
 
     public int MaxSailorsCount {
         get { return _maxSailorsCount; }
-        set { _maxSailorsCount = value; }
+        set { _maxSailorsCount = value;
+            UIManager.instance.SetSailorHUD(_currentSailorsCount, _maxSailorsCount);
+        }
     }
 
     public int CurrentSailorsCount {
         get { return _currentSailorsCount; }
-        set { _currentSailorsCount = value; }
+        set { _currentSailorsCount = value;
+            UIManager.instance.SetSailorHUD(_currentSailorsCount, _maxSailorsCount);
+        }
     }
 
     public int MarketPrice {
