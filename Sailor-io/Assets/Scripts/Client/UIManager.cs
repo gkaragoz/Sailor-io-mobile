@@ -8,6 +8,14 @@ public class UIManager : MonoBehaviour
 {
 	public static UIManager instance;
 
+    [Header("UI Parent Objects")]
+    #region UI Parent Objects
+    public GameObject objLoginParent;
+    public GameObject objGameplayParent;
+    public GameObject objDebugParent;
+    #endregion
+
+    [Header("HUD References")]
     #region HUD
     public Text txtHealth_HUD;
     public Text txtSupply_HUD;
@@ -28,6 +36,18 @@ public class UIManager : MonoBehaviour
 	public void ChangeScene(string sceneName) {
 		SceneManager.LoadScene(sceneName);
 	}
+    
+    public void ShowOfflineModeUI() {
+        objLoginParent.SetActive(false);
+        objGameplayParent.SetActive(true);
+        objDebugParent.SetActive(true);
+    }
+
+    public void HideOfflineModeUI() {
+        objLoginParent.SetActive(true);
+        objGameplayParent.SetActive(false);
+        objDebugParent.SetActive(false);
+    }
 
     #region HUD Set Methods
     public void SetHealthHUD(float currentHealth, float maxHealth) {

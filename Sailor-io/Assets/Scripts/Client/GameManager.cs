@@ -19,7 +19,9 @@ public class GameManager : MonoBehaviour {
     private void Awake() {
         if (instance == null)
             instance = this;
+    }
 
+    private void Start() {
         SetStatusOfNetworkComponents();
     }
 
@@ -33,11 +35,15 @@ public class GameManager : MonoBehaviour {
             einterpManager.enabled = false;
             socketIOComponent.enabled = false;
 
+            UIManager.instance.ShowOfflineModeUI();
+
             Instantiate(offlineShipPrefab);
-        } else {
-            socketManager.enabled = true;
-            einterpManager.enabled = true;
-            socketIOComponent.enabled = true;
         }
+    }
+
+    public void StartGame() {
+        socketManager.enabled = true;
+        einterpManager.enabled = true;
+        socketIOComponent.enabled = true;
     }
 }
