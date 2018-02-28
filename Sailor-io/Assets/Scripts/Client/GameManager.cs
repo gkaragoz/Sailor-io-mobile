@@ -37,7 +37,8 @@ public class GameManager : MonoBehaviour {
 
             UIManager.instance.ShowOfflineModeUI();
 
-            Instantiate(offlineShipPrefab);
+            GameObject offlineShip = Instantiate(offlineShipPrefab);
+            UltimateOrbitCamera.instance.SetTarget(offlineShip.transform);
         }
     }
 
@@ -45,5 +46,6 @@ public class GameManager : MonoBehaviour {
         socketManager.enabled = true;
         einterpManager.enabled = true;
         socketIOComponent.enabled = true;
+        UltimateOrbitCamera.instance.enabled = true;
     }
 }

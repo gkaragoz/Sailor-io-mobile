@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class UltimateOrbitCamera : MonoBehaviour {
 
+    public static UltimateOrbitCamera instance;
+
     public VirtualJoystick joystick;
     public bool joystickControl = true;
 
@@ -53,6 +55,11 @@ public class UltimateOrbitCamera : MonoBehaviour {
     public float zoomSpeed = 5f;
     private float zoomVelocity;
 
+    private void Awake() {
+        if (instance == null)
+            instance = this;
+    }
+
     private void Start() {
         this.targetDistance = this.distance;
         if (this.invertAxisX) {
@@ -84,7 +91,7 @@ public class UltimateOrbitCamera : MonoBehaviour {
     }
 
     private void LateUpdate() {
-        if (this.target != null) {
+        if (this.target != null && this.joystick != null) {
             if (this.joystickControl) {
                 this.xVelocity += (joystick.InputDirection.x * this.xSpeed) * this.invertXValue;
                 this.yVelocity -= (joystick.InputDirection.z * this.ySpeed) * this.invertYValue;
@@ -137,5 +144,9 @@ public class UltimateOrbitCamera : MonoBehaviour {
         } else {
             Debug.LogWarning("Orbit Cam - No Target Given");
         }
+    }
+
+    public void SetTarget(Transform target) {
+        this.target = target; 
     }
 }
