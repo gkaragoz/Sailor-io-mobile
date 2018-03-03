@@ -1914,6 +1914,51 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1221584692
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1221584693}
+  - component: {fileID: 1221584694}
+  m_Layer: 0
+  m_Name: Pirate Character Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1221584693
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1221584692}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.085999966, z: -9.765999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2004333580}
+  m_Father: {fileID: 1890517487}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1221584694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1221584692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40a7c9fdef20a2f4b8c5eb43564ca55d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runSpeed: 5
+  turnSpeed: 250
+  pirate: {fileID: 2083855175}
+  ship: {fileID: 1784771711}
 --- !u!1 &1268615527
 GameObject:
   m_ObjectHideFlags: 0
@@ -2274,6 +2319,34 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 509570baa66400e47a74733f764f3932, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1656253761
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1656253762}
+  m_Layer: 0
+  m_Name: Captain Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1656253762
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1656253761}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.085999966, z: -9.765999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1890517487}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1664279489
 Prefab:
   m_ObjectHideFlags: 0
@@ -2363,11 +2436,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shipSpeed: 10
   shipRotationSpeed: 5
-  wheelRotationSpeed: 720
+  wheelRotationSpeed: 360
   wheelRotationAmount: 720
   wheel: {fileID: 1866850746}
   cameraPanAmount: 0.1
   captain: {fileID: 2083855175}
+  captainAtWheel: 1
+  captainPosition: {fileID: 1656253762}
 --- !u!95 &1784771714
 Animator:
   serializedVersion: 3
@@ -2495,7 +2570,8 @@ Transform:
   - {fileID: 1211404139}
   - {fileID: 717147880}
   - {fileID: 289223307}
-  - {fileID: 2004333580}
+  - {fileID: 1221584693}
+  - {fileID: 1656253762}
   m_Father: {fileID: 1784771712}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2643,7 +2719,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1890517487}
+    m_TransformParent: {fileID: 1221584693}
     m_Modifications:
     - target: {fileID: 4402837836789620, guid: b0bc3c270b38a764b8717c4d4929566d, type: 2}
       propertyPath: m_LocalPosition.x
@@ -2651,11 +2727,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4402837836789620, guid: b0bc3c270b38a764b8717c4d4929566d, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.086
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4402837836789620, guid: b0bc3c270b38a764b8717c4d4929566d, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -9.766
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4402837836789620, guid: b0bc3c270b38a764b8717c4d4929566d, type: 2}
       propertyPath: m_LocalRotation.x
@@ -2675,7 +2751,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4402837836789620, guid: b0bc3c270b38a764b8717c4d4929566d, type: 2}
       propertyPath: m_RootOrder
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 23890055569931220, guid: b0bc3c270b38a764b8717c4d4929566d,
         type: 2}
@@ -2684,11 +2760,11 @@ Prefab:
       objectReference: {fileID: 2100000, guid: 63a1586e3c7fe1f479b3bb5a6cf75a29, type: 2}
     - target: {fileID: 1862310147847670, guid: b0bc3c270b38a764b8717c4d4929566d, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1850406783644820, guid: b0bc3c270b38a764b8717c4d4929566d, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4216107815540816, guid: b0bc3c270b38a764b8717c4d4929566d, type: 2}
       propertyPath: m_LocalPosition.z
